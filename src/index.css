@@ -22,7 +22,7 @@
   border-bottom: 5px solid #E3B951;
   border-right: 5px solid #E3B951;
   transform: rotate(45deg);
-  margin: -10px;
+  margin: -20px;
   animation: animate 2s infinite;
 }
 
