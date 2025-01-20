@@ -4,24 +4,26 @@ import { IoBookmarksOutline } from "react-icons/io5";
 import useActiveSection from "../hooks/useActiveSection";
 
 const smoothScrollTo = (id, offset = 0) => {
-    const section = document.getElementById(id);
-    if (section) {
-      const top = section.offsetTop - offset;
-      window.scrollTo({
-        top,
-        behavior: "smooth",
-      });
-    }
-  };
+  const section = document.getElementById(id);
+  if (section) {
+    const top = section.offsetTop - offset;
+    window.scrollTo({
+      top,
+      behavior: "smooth",
+    });
+  }
+};
 
 const Navbar = () => {
   const sectionIds = ["section1", "section2"];
-  const activeSection = useActiveSection(sectionIds, 80); 
+  const activeSection = useActiveSection(sectionIds, 80);
 
   const getNavLinkClass = (id) => {
-    return activeSection === id
-      ? "border-b-2 border-accent pb-1"
-      : "hover:border-b-2 hover:border-accent pb-1 transition-all";
+    return `text-white ${
+      activeSection === id
+        ? "border-b-2 border-accent"
+        : "border-b-2 border-transparent hover:border-accent transition-all duration-200"
+    }`;
   };
 
   return (
@@ -31,10 +33,16 @@ const Navbar = () => {
         <h1 className="text-2xl ml-2 font-semibold">Deskify</h1>
       </div>
       <nav className="flex gap-x-4">
-        <button  onClick={() => smoothScrollTo("section1", 80)} className={getNavLinkClass("section1")}>
+        <button
+          onClick={() => smoothScrollTo("section1", 80)}
+          className={getNavLinkClass("section1")}
+        >
           Home
         </button>
-        <button  onClick={() => smoothScrollTo("section2", 80)} className={getNavLinkClass("section2")}>
+        <button
+          onClick={() => smoothScrollTo("section2", 80)}
+          className={getNavLinkClass("section2")}
+        >
           Desk
         </button>
       </nav>

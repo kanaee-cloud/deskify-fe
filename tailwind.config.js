@@ -15,7 +15,8 @@ module.exports = {
         sanctuary: '#212529'
       },
       backgroundImage: {
-        home: "url('/public/assets/home.png')"
+        home: "url('/public/assets/home.png')",
+        information: "url('/public/assets/what.png')"
       },
     },
   },

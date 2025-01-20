@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { PiMonitor } from "react-icons/pi";
 // import { RiArrowDownDoubleFill } from "react-icons/ri";
 
@@ -9,6 +10,7 @@ const Home = () => {
       <div className=" fixed top-0 left-0 right-0 z-50">
         <Navbar />
       </div>
+
       <div>
         <div
           id="section1"
@@ -84,25 +86,47 @@ const Home = () => {
           </div>
         </div>
 
-        <div id="section3" className="h-screen text-white">
-          <div className="max-w-screen-lg mx-auto flex items-center justify-between">
+        <div
+          id="section3"
+          className="h-screen text-white flex items-center justify-center"
+        >
+          <div className="mx-auto flex items-center justify-between">
             <div className="flex-1">
-              <h1 className="text-4xl font-semibold mb-7">
-                Why You Might Ask?
-              </h1>
-              <p className="text-lg font-light text-gray-300">
+              <h1 className="text-5xl font-medium mb-7">Why You Might Ask?</h1>
+              <p className="text-xl font-light text-gray-300">
                 We believe laptop can improve productivity anywhere you go.
                 <br />
-                So why not combine that into a comfy setup with the same portability that match your need?
+                So why not combine that into a comfy setup with the same
+                portability that match your need?
               </p>
             </div>
-            <div className="ml-8">
-              <div className="w-32 h-32 rounded-full flex items-center justify-center">
+            <div className="ml-32">
+              <div className="w-36 h-36 rounded-full flex items-center justify-center">
                 <img src="/assets/tanya.png" alt="" />
               </div>
             </div>
           </div>
         </div>
+
+        <div
+          id="section4"
+          className="bg-information bg-no-repeat bg-center h-screen flex flex-col justify-center items-center"
+        >
+          <div className="max-w-full text-center px-4">
+            <h1 className="text-4xl font-medium text-white mb-4">
+              We Respect Your Data
+            </h1>
+            <h2 className="text-xl font-light text-gray-300 leading-relaxed">
+              No registration required - jump right in and explore our website.
+              Your privacy matters to us, and we've <br /> designed everything
+              to work without collecting any of your personal information.
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      <div className=" fixed top-0 left-0 right-0 z-50">
+        <Footer />
       </div>
     </>
   );
