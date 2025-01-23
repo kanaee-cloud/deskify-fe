@@ -16,7 +16,8 @@ module.exports = {
       },
       backgroundImage: {
         home: "url('/public/assets/home.png')",
-        information: "url('/public/assets/what.png')"
+        information: "url('/public/assets/what.png')",
+        header: "url('/public/assets/header.png')",
       },
     },
   },

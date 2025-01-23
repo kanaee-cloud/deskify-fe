@@ -34,6 +34,52 @@
   animation-delay: -0.4s;
 }
 
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid;
+  border-color: #E3B951 #0000;
+  animation: l1 1s infinite;
+}
+
+
+@keyframes l1 {to{transform: rotate(.5turn)}}
+
+
+input[type="checkbox"] {
+  appearance: none; 
+  width: 20px;
+  height: 20px;
+  background-color: #E3B951; 
+  border: 1px solid #212529; 
+  border-radius: 4px; 
+  cursor: pointer;
+  transition: all 0.3s ease; 
+}
+
+
+input[type="checkbox"]:checked {
+  background-color: #212529; 
+  border-color: #212529; 
+}
+
+
+input[type="checkbox"]:checked::after {
+  content: '✓';
+  font-size: 14px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+input[type="checkbox"]:hover {
+  border-color: #888; 
+}
+
 @keyframes animate {
   0% {
     opacity: 0;

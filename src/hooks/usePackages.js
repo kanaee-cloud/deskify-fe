@@ -17,6 +17,7 @@ const usePackages = (initialPage = 1) => {
         const response = await api.get(`/packages?page=${page}`);
         const data = response.data;
 
+        console.log(data)
         setPackages(data.packages || []);
         setTotalPages(data.totalPages || 4);
       } catch (err) {

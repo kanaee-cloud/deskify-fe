@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Package from "./pages/Package";
+import Laptop from "./pages/Laptop";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<Home />}></Route>
+          <Route path="/laptops" element={<Laptop />}></Route>
           <Route path="/desk" element={<Package />}></Route>
         </Routes>
         <div>

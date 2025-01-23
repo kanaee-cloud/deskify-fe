@@ -2,8 +2,36 @@ import { useEffect, useState } from "react"
 import api from '../api/api'
 
 const useLaptops = () => {
+
+  const [laptops, setLaptops] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchLaptops = async () => {
+      setIsLoading(true)
+      setError(null)
+
+      try {
+        const response = await api.get('/laptops')
+        const data = response.data
+
+ 
+        setLaptops(data.laptops || [])
+      } catch (err){
+        setError("failed to fetch packages")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchLaptops()
+  }, [])
+
   return (
-    <div>useLaptops</div>
+    laptops,
+    isLoading,
+    error
   )
 }
 

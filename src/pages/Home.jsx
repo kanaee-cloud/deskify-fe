@@ -7,7 +7,6 @@ import React from "react";
 const Home = () => {
   return (
     <>
-      
       <div>
         <div
           className="bg-home bg-no-repeat bg-center h-screen flex flex-col justify-center items-center"
