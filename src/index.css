@@ -99,3 +99,25 @@ input[type="checkbox"]:hover {
     @apply font-primary bg-primary text-white;
   }
 }
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px; /* Lebar scrollbar lebih ramping */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #2e2e2e; /* Track warna abu-abu gelap */
+  border-radius: 6px; /* Bikin track lebih smooth */
+  margin: 10px 0; /* Kasih jarak atas-bawah biar nggak full */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #8c8c8c; /* Thumb warna abu-abu terang */
+  border-radius: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0; /* Warna saat hover */
+}
+
+
