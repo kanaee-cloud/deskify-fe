@@ -17,9 +17,9 @@ const useLaptops = () => {
         const data = response.data
 
  
-        setLaptops(data.laptops || [])
+        setLaptops(data.laptop || [])
       } catch (err){
-        setError("failed to fetch packages")
+        setError("failed to fetch laptops")
       } finally {
         setIsLoading(false)
       }
@@ -28,11 +28,11 @@ const useLaptops = () => {
     fetchLaptops()
   }, [])
 
-  return (
+  return {
     laptops,
     isLoading,
     error
-  )
+}
 }
 
 export default useLaptops

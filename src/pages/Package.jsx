@@ -4,7 +4,7 @@ import PackageCard from "../components/PackageCard";
 import usePackages from "../hooks/usePackages";
 
 const Package = () => {
-  const { packages, page, totalPages, isLoading, error, nextPage, prevPage } =
+  const { packages, page, totalPages, nextPage, prevPage } =
     usePackages(1);
 
   return (

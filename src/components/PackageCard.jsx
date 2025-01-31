@@ -1,6 +1,5 @@
 import React from "react";
 import { FaRegKeyboard } from "react-icons/fa";
-import { BiMouseAlt } from "react-icons/bi";
 import { truncateText } from "../utilities/TruncateText";
 import { FiMonitor } from "react-icons/fi";
 import { FiMousePointer } from "react-icons/fi";
