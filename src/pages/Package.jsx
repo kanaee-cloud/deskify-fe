@@ -41,6 +41,7 @@ const Package = () => {
               {packages.map((pkg) => (
                 <PackageCard
                   key={pkg.id}
+                  
                   tier={pkg.tier}
                   description={pkg.description}
                   priceRange={pkg.price_range}

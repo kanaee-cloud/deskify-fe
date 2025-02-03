@@ -2,17 +2,13 @@ import React, { useState } from "react";
 import { FiMonitor, FiX } from "react-icons/fi";
 import { BiLink } from "react-icons/bi";
 import { MdDateRange } from "react-icons/md";
+import { FaRegKeyboard } from "react-icons/fa";
+import { FiMousePointer } from "react-icons/fi";
 
-const ComponentCard = ({ title, icon: Icon }) => {
+const ComponentCard = ({ title, icon: Icon, specs }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Temporary specifications for all components
-  const specs = [
-    { icon: MdDateRange, value: "2020" },
-    { label: "Resolution", value: "1920x1080 FHD" },
-    { label: "Refresh Rate", value: "120Hz" },
-    { label: "Size", value: "16'inch" },
-  ];
+  if (!title) return null;
 
   return (
     <div className="bg-accent bg-opacity-10 rounded-lg overflow-hidden">
@@ -24,9 +20,6 @@ const ComponentCard = ({ title, icon: Icon }) => {
           {Icon && <Icon className="text-accent" size={20} />}
           <h3 className="text-white text-sm">{title}</h3>
         </div>
-        <button className="flex items-center gap-1 text-accent hover:text-yellow-500">
-          <BiLink size={25} />
-        </button>
       </div>
 
       <div
@@ -39,10 +32,8 @@ const ComponentCard = ({ title, icon: Icon }) => {
             {specs.map((spec, index) => (
               <div key={index} className="flex items-center gap-2">
                 {spec.icon && <spec.icon className="text-gray-400" />}
-                {spec.label && (
-                  <span className="text-gray-400">{spec.label}:</span>
-                )}
-                <span className="text-white">{spec.value}</span>
+                {spec.label && <p className="text-gray-400">{spec.label}:</p>}
+                <p className="text-white text-xs">{spec.value}</p>
               </div>
             ))}
           </div>
@@ -54,6 +45,8 @@ const ComponentCard = ({ title, icon: Icon }) => {
 
 const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
   if (!isOpen) return null;
+
+  const { monitor, keyboard, mouse, mouse_pad } = packageData.components;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -86,15 +79,49 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
           </div>
 
           {/* Right Section */}
-<div className="flex-1 p-6 overflow-y-auto max-h-[60vh] custom-scrollbar space-y-6">
-  <div className="space-y-4 px-2">
-    <ComponentCard title="Monitor A" icon={FiMonitor} />
-    <ComponentCard title="Mouse" icon={BiLink} />
-    <ComponentCard title="Keyboard" icon={BiLink} />
-    <ComponentCard title="Mousepad" icon={BiLink} />
-  </div>
-</div>
-
+          <div className="flex-1 p-6 overflow-y-auto max-h-[60vh] custom-scrollbar space-y-6">
+            <div className="space-y-4 px-2">
+              <ComponentCard
+                title={monitor?.monitor_1?.model_name || "No Monitor Available"}
+                icon={FiMonitor}
+                specs={
+                  monitor
+                    ? [
+                        {
+                          label: "Resolution",
+                          value: monitor?.monitor_1?.specification?.resolution,
+                        },
+                      ]
+                    : []
+                }
+              />
+              <ComponentCard
+                title={mouse?.model_name || "No Mouse Available"}
+                icon={FiMousePointer}
+                specs={
+                  mouse
+                    ? [
+                        { label: "DPI", value: mouse?.specifications?.dpi },
+                        { label: "Type", value: mouse?.specifications?.type },
+                        { label: "Connectivity", value: mouse?.specifications?.connectivity },
+                      ]
+                    : []
+                }
+              />
+              <ComponentCard
+                title={keyboard?.model_name || "No Keyboard Available"}
+                icon={FaRegKeyboard}
+                specs={
+                  keyboard ? [{ label: "Switch", value: "Mechanical" }] : []
+                }
+              />
+              <ComponentCard
+                title={mouse_pad?.model_name || "No Mousepad Available"}
+                icon={BiLink}
+                specs={mouse_pad ? [{ label: "Material", value: "Cloth" }] : []}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import { FiMonitor } from "react-icons/fi";
 import { FiMousePointer } from "react-icons/fi";
 import PackageDetailModal from "./PackageDetailModal";
 
-const PackageCard = ({ tier, description, priceRange, components }) => {
+const PackageCard = ({ id, tier, description, priceRange, components }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
