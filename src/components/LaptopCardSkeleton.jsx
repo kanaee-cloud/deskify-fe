@@ -40,7 +40,7 @@ const LaptopCardSkeleton = () => {
 };
 
 // Grid of skeleton cards that matches API data length
-const LaptopSkeletonGrid = ({ count = 3 }) => {
+const LaptopSkeletonGrid = ({ count = 12 }) => {
   return (
     <div className="grid justify-center mx-auto grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {Array(count).fill(0).map((_, index) => (

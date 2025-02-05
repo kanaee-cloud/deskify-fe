@@ -12,7 +12,7 @@ const PackageCard = ({ id, tier, description, priceRange, components }) => {
     <>
       <div className="bg-primary border-solid border-accent border rounded-lg p-4 lg:p-6 relative h-full flex flex-col">
         {/* Image placeholder */}
-        <div className="aspect-video bg-yellow-500 rounded-lg mb-4"></div>
+        <div className="aspect-video bg-accent rounded-lg mb-4"></div>
 
         {/* Title */}
         <h2 className="text-white text-xl font-semibold mb-4 text-center">
