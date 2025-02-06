@@ -5,9 +5,24 @@ import { extractText } from "../utilities/ExtractText";
 import { FaDatabase } from "react-icons/fa";
 import { FiMonitor } from "react-icons/fi";
 import { TwoChar } from "../utilities/TwoChar";
+import useComparisons from "../hooks/useComparisons";
 
 
 const LaptopCard = ({ id, name, image, ram, memory, display }) => {
+
+  // const handleAddComparison = () => {
+  //   const laptopDetails = { id, name, image, ram, memory, display };
+  //   const comparisons = JSON.parse(localStorage.getItem("comparisons")) || [];
+  //   comparisons.push(laptopDetails);
+  //   localStorage.setItem("comparisons", JSON.stringify(comparisons));
+  //   alert(`${name} added to comparison!`);
+
+  //   window.location.reload();
+  // };
+
+  const { addComparison } = useComparisons();
+
+
   return (
     <div className="border border-gray-300 border-opacity-60 rounded-md">
       <div className="flex items-center gap-x-2  w-full px-4 py-4">
@@ -38,7 +53,7 @@ const LaptopCard = ({ id, name, image, ram, memory, display }) => {
           </div>
         </div>
       </div>
-      <button className="bg-accent hover:bg-yellow-500 transition-all w-full py-1 text-sm rounded-b-md text-primary">
+      <button onClick={() => addComparison({ id, name, image, ram, memory, display })} className="bg-accent hover:bg-yellow-500 transition-all w-full py-1 text-sm rounded-b-md text-primary">
         Add Comparison
       </button>
     </div>
