@@ -33,24 +33,24 @@ const Navbar = () => {
         isSticky
           ? "fixed top-0 left-0 right-0 bg-primary shadow-lg"
           : "relative bg-transparent"
-      } border rounded-lg m-4 border-accent flex items-center justify-between p-4 z-50 transition-all duration-300`}
+      } border rounded-lg m-4 border-accent flex items-center justify-between py-3 px-5 z-50 transition-all duration-300`}
     >
       <div className="flex items-center">
-        <MdMonitor size={30} className="text-accent" />
-        <h1 className="md:text-2xl ml-2 font-semibold">Deskify</h1>
+        <MdMonitor size={24} className="text-accent" />
+        <h1 className="md:text-lg ml-1 font-medium">Deskify</h1>
       </div>
-      <nav className="flex gap-x-4">
-        <NavLink to="/" className={getNavLinkClass("/")}>
-          Home
-        </NavLink>
+      <nav className="flex gap-x-4 absolute inset-x-0 mx-auto justify-center">
         <NavLink to="/desk" className={getNavLinkClass("/desk")}>
           Desk
+        </NavLink>
+        <NavLink to="/" className={getNavLinkClass("/")}>
+          Home
         </NavLink>
         <NavLink to="/laptops" className={getNavLinkClass("/laptops")}>
           Laptop
         </NavLink>
       </nav>
-      <IoBookmarksOutline size={30} className="text-accent" />
+      <IoBookmarksOutline size={24} className="text-accent" />
     </header>
   );
 };
