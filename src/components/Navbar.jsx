@@ -47,7 +47,7 @@ const Navbar = () => {
           Desk
         </NavLink>
         <NavLink to="/laptops" className={getNavLinkClass("/laptops")}>
-          Laptops
+          Laptop
         </NavLink>
       </nav>
       <IoBookmarksOutline size={30} className="text-accent" />
