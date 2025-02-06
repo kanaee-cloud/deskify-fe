@@ -52,14 +52,12 @@ const Navbar = () => {
             Laptop
           </NavLink>
         </nav>
-        {/* Ikon Bookmark */}
         <button onClick={() => setIsBookmarkOpen(true)} className="cursor-pointer z-50">
           <IoBookmarksOutline size={24} className="text-accent" />
         </button>
       </header>
 
-      {/* Sidebar Bookmark */}
-      {isBookmarkOpen && <Bookmark onClose={() => setIsBookmarkOpen(false)} />}
+      <Bookmark isOpen={isBookmarkOpen} onClose={() => setIsBookmarkOpen(false)} />
     </>
   );
 };
