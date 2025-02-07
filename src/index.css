@@ -2,14 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* body{
-  font-family: 'Quicksand', sans-serif;
-} */
-
+/* Existing arrow styles */
 .arrow {
-  /* position: absolute; */
-  /* top: 50%;
-  left: 50%; */
   transform: translate(-50%, -50%);
   transform: rotate(360deg);
   cursor: pointer;
@@ -47,7 +41,7 @@
   }
 }
 
-/* HTML: <div class="loader"></div> */
+/* Existing loader styles */
 .loader {
   width: 50px;
   aspect-ratio: 1;
@@ -57,27 +51,28 @@
   animation: l1 1s infinite;
 }
 
+@keyframes l1 {
+  to {
+    transform: rotate(.5turn)
+  }
+}
 
-@keyframes l1 {to{transform: rotate(.5turn)}}
-
-
+/* Existing checkbox styles */
 input[type="checkbox"] {
-  appearance: none; 
+  appearance: none;
   width: 20px;
   height: 20px;
-  background-color: #E3B951; 
-  border: 1px solid #212529; 
-  border-radius: 4px; 
+  background-color: #E3B951;
+  border: 1px solid #212529;
+  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s ease; 
+  transition: all 0.3s ease;
 }
-
 
 input[type="checkbox"]:checked {
-  background-color: #212529; 
-  border-color: #212529; 
+  background-color: #212529;
+  border-color: #212529;
 }
-
 
 input[type="checkbox"]:checked::after {
   content: '✓';
@@ -88,9 +83,12 @@ input[type="checkbox"]:checked::after {
   justify-content: center;
 }
 
-
 input[type="checkbox"]:hover {
+<<<<<<< HEAD
   border-color: #888; 
+=======
+  border-color: #888;
+>>>>>>> 8734cc4db0021b3801580afd0611002c9bf0669e
 }
 
 @layer base {
@@ -101,22 +99,74 @@ input[type="checkbox"]:hover {
 
 /* Custom Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 5px; /* Lebar scrollbar lebih ramping */
+  width: 5px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #2e2e2e; /* Track warna abu-abu gelap */
-  border-radius: 6px; /* Bikin track lebih smooth */
-  margin: 10px 0; /* Kasih jarak atas-bawah biar nggak full */
+  background: #2e2e2e;
+  border-radius: 6px;
+  margin: 10px 0;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #8c8c8c; /* Thumb warna abu-abu terang */
+  background: #8c8c8c;
   border-radius: 6px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #a0a0a0; /* Warna saat hover */
+  background: #a0a0a0;
 }
 
+/* New Bookmark Sidebar Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Sidebar transition utilities */
+.sidebar-enter {
+  transform: translateX(100%);
+}
+
+.sidebar-enter-active {
+  transform: translateX(0%);
+  transition: transform 300ms ease-in-out;
+}
+
+.sidebar-exit {
+  transform: translateX(0%);
+}
+
+.sidebar-exit-active {
+  transform: translateX(100%);
+  transition: transform 300ms ease-in-out;
+}
+
+/* Overlay transition utilities */
+.overlay-enter {
+  opacity: 0;
+}
+
+.overlay-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+
+.overlay-exit {
+  opacity: 1;
+}
+
+.overlay-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
