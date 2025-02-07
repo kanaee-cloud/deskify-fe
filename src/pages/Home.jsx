@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { MdMonitor } from "react-icons/md";
 // import Navbar from "../components/Navbar";
 // import Footer from "../components/Footer";
 // import { PiMonitor } from "react-icons/pi";
@@ -11,6 +12,10 @@ const Home = () => {
       <div>
         <div className="bg-home bg-no-repeat bg-top h-screen flex flex-col justify-center items-center mt-20">
           <div className="flex flex-col gap-y-10 text-center">
+            <div className="flex items-center justify-center">
+              <MdMonitor size={50} className="text-accent" />
+              <h1 className="md:text-5xl ml-1 font-medium">Deskify</h1>
+            </div>
             <h1 className="lg:text-6xl text-3xl font-medium text-center">
               Build Your Ultimate Laptop <br /> Setup with Ease.
             </h1>
@@ -18,12 +23,10 @@ const Home = () => {
               We Help You Choose Your Perfect Laptop Setup
             </h2>
           </div>
-          <a href="#section2" className="scroll-smooth">
-            <div className="arrow mt-14">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+          <a href="#section2" className=" arrow mt-14 scroll-smooth">
+            <span></span>
+            <span></span>
+            <span></span>
           </a>
         </div>
 
@@ -36,10 +39,10 @@ const Home = () => {
               <div className="absolute inset-0 w-0 bg-accent transition-all duration-300 ease-out group-hover:w-full -z-10 " />
 
               <h1 className="md:text-4xl font-medium group-hover:text-sanctuary transition-colors duration-300">
-                Setup Pre-build
+                Desk Setup
               </h1>
               <p className="md:text-lg text-xs font-normal opacity-70 group-hover:text-sanctuary group-hover:opacity-100 transition-all duration-300">
-                Between setup pre-build that suits your needs.
+                Choose between desk setup that suits your needs.
               </p>
               <img
                 src="/assets/monitor.png"
@@ -127,4 +130,3 @@ const Home = () => {
 };
 
 export default Home;
-

@@ -16,38 +16,34 @@
 }
 
 .arrow span {
+  width: 3vh;
+  height: 3vh;
   display: block;
-  width: 5vh;
-  height: 5vh;
   border-bottom: 5px solid #E3B951;
   border-right: 5px solid #E3B951;
-  transform: rotate(45deg);
-  animation: animate 3s infinite 1s;
+  animation: animate 2s infinite 1s;
 }
 
-.arrow span:nth-child(2) {
-  animation-delay: -1.6s;
+.arrow span:nth-child(even) {
+  animation-delay: 0.8s;
 }
 
-.arrow span:nth-child(0) {
-  animation-delay: -0.8s;
-}
-
-.arrow span:nth-child(1) {
+.arrow span:nth-child(odd) {
   animation-delay: -1.2s;
 }
 
 @keyframes animate {
   0% {
     opacity: 0;
-    transform: rotate(45deg) translate(-20px, -20px);
+    transform: rotate(45deg) translate(-10px, -10px);
   }
   50% {
-    opacity: 1;
+    opacity: 1; 
+    transform: rotate(45deg) translate(5px, 5px);
   }
   100% {
     opacity: 0;
-    transform: rotate(45deg) translate(20px, 20px);
+    transform: rotate(45deg) translate(10px, 10px);
   }
 }
 
@@ -95,20 +91,6 @@ input[type="checkbox"]:checked::after {
 
 input[type="checkbox"]:hover {
   border-color: #888; 
-}
-
-@keyframes animate {
-  0% {
-    opacity: 0;
-    transform: rotate(45deg) translate(-20px, -20px);
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: rotate(45deg) translate(20px, 20px);
-  }
 }
 
 @layer base {
