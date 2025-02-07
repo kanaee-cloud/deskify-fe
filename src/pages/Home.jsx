@@ -1,11 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import Navbar from "../components/Navbar";
-// import Footer from "../components/Footer";
-// import { PiMonitor } from "react-icons/pi";
-// import { RiArrowDownDoubleFill } from "react-icons/ri";
 
 const Home = () => {
+  const handleSmoothScroll = (event) => {
+    event.preventDefault();
+    const targetSection = document.querySelector("#section2");
+    if (targetSection) {
+      window.scrollTo({
+        top: targetSection.offsetTop,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <>
       <div>
@@ -18,7 +25,7 @@ const Home = () => {
               We Help You Choose Your Perfect Laptop Setup
             </h2>
           </div>
-          <a href="#section2" className="scroll-smooth">
+          <a href="#section2" className="scroll-smooth" onClick={handleSmoothScroll}>
             <div className="arrow mt-14">
               <span></span>
               <span></span>
