@@ -2,7 +2,7 @@ import React from "react";
 
 const PackageCardSkeleton = () => {
   return (
-    <div className="bg-primary border-solid border-accent border rounded-lg p-4 lg:p-6 relative h-full flex flex-col animate-pulse">
+    <div className="bg-primary border-solid border-gray-700 border rounded-lg p-4 lg:p-6 relative h-full flex flex-col animate-pulse">
       {/* Image placeholder */}
       <div className="aspect-video bg-gray-700 rounded-lg mb-4"></div>
 

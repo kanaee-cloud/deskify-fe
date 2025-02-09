@@ -5,10 +5,13 @@ import { IoBookmarksOutline } from "react-icons/io5";
 import { FaFileImage } from "react-icons/fa";
 import useLocalPackage from "../hooks/useLocalPackage";
 import { truncateText } from "../utilities/TruncateText";
+import useLocalLaptop from "../hooks/useLocalLaptop";
+import { FormatMoney } from "../utilities/FormatMoney";
 
 const Bookmark = ({ isOpen, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
   const { packages, removePackages } = useLocalPackage();
+  const { laptop, removeLaptop } = useLocalLaptop();
 
   useEffect(() => {
     if (isOpen) {
@@ -22,6 +25,9 @@ const Bookmark = ({ isOpen, onClose }) => {
       onClose();
     }, 300);
   };
+
+  
+  const isEmpty = (!packages || packages.length === 0) && (!laptop || laptop.length === 0);
 
   return (
     <>
@@ -46,42 +52,85 @@ const Bookmark = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {packages ? (
-          <ul className="mt-12 space-y-3">
-            {packages.map((item, index) => (
-              <li
-                key={item.id}
-                style={{
-                  opacity: 0,
-                  animation: isVisible
-                    ? `fadeSlideIn 0.2s ease-out forwards ${index * 0.2}s`
-                    : "none",
-                }}
-                className="flex items-center justify-between border-b border-accent pb-2"
-              >
-                <div className="flex items-center gap-3 ml-3">
-                  <FaFileImage size={20} className="text-accent" />
-                  <div className="flex flex-col">
-                    <p className="font-medium">{item.tier}</p>
-                    <p className="text-xs text-gray-400">
-                      {truncateText(item.description)}
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => {
-                    removePackages(item.id);
-                  }}
-                  className="text-red-500 mr-3"
-                >
-                  <IoMdCloseCircle size={20} />
-                </button>
-              </li>
-            ))}
-          </ul>
+        
+        {isEmpty ? (
+          <div className="mt-12 text-center text-gray-400">
+            <p className="text-lg">No bookmarked item yet</p>
+          </div>
         ) : (
-          <p>No Package Yet</p>
+          <>
+           
+            {packages && packages.length > 0 && (
+              <ul className="mt-12 space-y-3">
+                <h1 className="text-xl font-semibold">Packages</h1>
+                {packages.map((item, index) => (
+                  <li
+                    key={item.id}
+                    style={{
+                      opacity: 0,
+                      animation: isVisible
+                        ? `fadeSlideIn 0.2s ease-out forwards ${index * 0.2}s`
+                        : "none",
+                    }}
+                    className="flex items-center justify-between border-b border-accent pb-2"
+                  >
+                    <div className="flex items-center gap-3 ml-3">
+                      <FaFileImage size={20} className="text-accent" />
+                      <div className="flex flex-col">
+                        <p className="font-medium">{item.tier}</p>
+                        <p className="text-xs text-gray-400">
+                          {truncateText(item.description)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => removePackages(item.id)}
+                      className="text-red-500 mr-3"
+                    >
+                      <IoMdCloseCircle size={20} />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+           
+            {laptop && laptop.length > 0 && (
+              <ul className="mt-12 space-y-3">
+                <h1 className="text-xl font-semibold">Laptops</h1>
+                {laptop.map((item, index) => (
+                  <li
+                    key={item.id}
+                    style={{
+                      opacity: 0,
+                      animation: isVisible
+                        ? `fadeSlideIn 0.2s ease-out forwards ${index * 0.2}s`
+                        : "none",
+                    }}
+                    className="flex items-center justify-between border-b border-accent pb-2"
+                  >
+                    <div className="flex items-center gap-3 ml-3">
+                      <FaFileImage size={20} className="text-accent" />
+                      <div className="flex flex-col">
+                        <p className="font-medium">{truncateText(item.name)}</p>
+                        <p className="text-xs text-gray-400">
+                          {FormatMoney(item.price)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => removeLaptop(item.id)}
+                      className="text-red-500 mr-3"
+                    >
+                      <IoMdCloseCircle size={20} />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </>
         )}
       </div>
 

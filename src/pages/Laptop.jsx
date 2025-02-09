@@ -57,6 +57,9 @@ const Laptop = () => {
                   ram={laptop.ram}
                   memory={laptop.memory}
                   display={laptop.display}
+                  price={laptop.price}
+                  processor={laptop.processor}
+                  gpu={laptop.gpu}
                   id={laptop.id}
                 />
               ))}

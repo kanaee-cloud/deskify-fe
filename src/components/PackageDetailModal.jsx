@@ -7,8 +7,7 @@ import { RiToolsLine } from "react-icons/ri";
 import {
   CiDesktopMouse1,
   CiDollar,
-  CiKeyboard,
-  CiMoneyBill,
+  CiKeyboard
 } from "react-icons/ci";
 import { AiOutlineUsb } from "react-icons/ai";
 import { BsUsb } from "react-icons/bs";
@@ -69,8 +68,12 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
     packageData.components.others;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-primary rounded-lg w-full max-w-3xl relative border border-accent">
+    <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${
+      isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+    }`}>
+      <div className={`bg-primary rounded-lg w-full max-w-3xl relative border border-accent transform transition-all duration-300 ${
+      isOpen ? "scale-100 opacity-100" : "scale-90 opacity-0"
+    }`}>
         <button
           onClick={onClose}
           className="absolute -right-5 -top-4  text-white bg-red-600 hover:bg-red-500"
@@ -231,8 +234,8 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                     specs={
                       bracket
                         ? [
-                            { label: "Price", value: bracket?.price },
-                            { label: "Size", value: bracket?.size },
+                            { label: <CiDollar size={20} /> , value: bracket?.price },
+                            { label: <IoIosResize size={20} />, value: bracket?.size },
                           ]
                         : []
                     }
@@ -261,8 +264,9 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                     specs={
                       bracket
                         ? [
-                            { label: "Price", value: streamdeck?.price },
-                            { label: "Size", value: streamdeck?.size },
+                            { label: <CiDollar size={20} />, value: streamdeck?.price },
+                            { label: <AiOutlineUsb size={20} />, value: streamdeck?.specification?.connetivity },
+                            { label: <RiToolsLine size={20} />, value: streamdeck?.specification?.feature },
                           ]
                         : []
                     }
@@ -271,10 +275,10 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                     title={others?.armrest?.model_name}
                     image={others?.armrest?.image_url}
                     specs={
-                      bracket
+                      armrest
                         ? [
-                            { label: "Price", value: bracket?.price },
-                            { label: "Size", value: bracket?.size },
+                            { label: <CiDollar size={20} />, value: armrest?.price },
+                            { label: <IoIosResize size={20} />, value: armrest?.size },
                           ]
                         : []
                     }
@@ -283,10 +287,10 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                     title={others?.desk_lamp?.model_name}
                     image={others?.desk_lamp?.image_url}
                     specs={
-                      bracket
+                      desk_lamp
                         ? [
-                            { label: "Price", value: bracket?.price },
-                            { label: "Size", value: bracket?.size },
+                            { label: <CiDollar size={20} />, value: bracket?.price },
+                            { label: <IoIosResize size={20} />, value: bracket?.size },
                           ]
                         : []
                     }
@@ -295,10 +299,10 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                     title={others?.monitor_lamp?.model_name}
                     image={others?.monitor_lamp?.image_url}
                     specs={
-                      bracket
+                      monitor_lamp
                         ? [
-                            { label: "Price", value: bracket?.price },
-                            { label: "Size", value: bracket?.size },
+                            { label: <CiDollar size={20} />, value: monitor_lamp?.price },
+                            { label: <RiToolsLine size={20} />, value: monitor_lamp?.feature },
                           ]
                         : []
                     }
