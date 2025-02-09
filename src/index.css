@@ -84,11 +84,7 @@ input[type="checkbox"]:checked::after {
 }
 
 input[type="checkbox"]:hover {
-<<<<<<< HEAD
-  border-color: #888; 
-=======
   border-color: #888;
->>>>>>> 8734cc4db0021b3801580afd0611002c9bf0669e
 }
 
 @layer base {
