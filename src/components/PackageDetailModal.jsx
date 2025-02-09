@@ -4,7 +4,12 @@ import { MdGraphicEq } from "react-icons/md";
 import { IoIosResize, IoMdLink } from "react-icons/io";
 import { MdOutlineDateRange } from "react-icons/md";
 import { RiToolsLine } from "react-icons/ri";
-import { CiDesktopMouse1, CiDollar, CiKeyboard, CiMoneyBill } from "react-icons/ci";
+import {
+  CiDesktopMouse1,
+  CiDollar,
+  CiKeyboard,
+  CiMoneyBill,
+} from "react-icons/ci";
 import { AiOutlineUsb } from "react-icons/ai";
 import { BsUsb } from "react-icons/bs";
 
@@ -21,7 +26,7 @@ const ComponentCard = ({ title, specs, link, image }) => {
       >
         <div className="flex w-full justify-between items-center gap-2">
           <div className="flex items-center gap-2">
-            <img src={image} alt="" className="w-10 h-10 rounded-md"/>
+            <img src={image} alt="" className="w-10 h-10 rounded-md" />
             <h3 className="text-white text-sm">{title}</h3>
           </div>
 
@@ -57,18 +62,20 @@ const ComponentCard = ({ title, specs, link, image }) => {
 const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
   if (!isOpen) return null;
 
-  const { monitor, keyboard, mouse, mouse_pad, others } = packageData.components;
+  const { monitor, keyboard, mouse, mouse_pad, others } =
+    packageData.components;
 
-    const { game_pad, bracket, streamdeck, armrest, desk_lamp, monitor_lamp } = packageData.components.others;
+  const { game_pad, bracket, streamdeck, armrest, desk_lamp, monitor_lamp } =
+    packageData.components.others;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
       <div className="bg-primary rounded-lg w-full max-w-3xl relative border border-accent">
         <button
           onClick={onClose}
-          className="absolute right-3 top-3 text-gray-400 hover:text-white"
+          className="absolute -right-5 -top-4  text-white bg-red-600 hover:bg-red-500"
         >
-          <FiX size={20} />
+          <FiX size={30} />
         </button>
 
         <div className="md:flex max-h-[80vh]">
@@ -95,28 +102,26 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
           <div className="flex-1 p-6 overflow-y-auto max-h-[60vh] custom-scrollbar space-y-6">
             <div className="space-y-4 px-2">
               <ComponentCard
-                title={
-                  monitor?.monitor_1?.model_name
-                }
+                title={monitor?.monitor_1?.model_name}
                 image={monitor?.monitor_1?.image_url}
                 specs={
                   monitor
                     ? [
                         {
-                          label: <MdOutlineDateRange size={20}/>,
+                          label: <MdOutlineDateRange size={20} />,
                           value: monitor?.monitor_1?.year,
                         },
                         {
-                          label: <FiMonitor size={20}/>,
+                          label: <FiMonitor size={20} />,
                           value: monitor?.monitor_1?.specification?.resolution,
                         },
                         {
-                          label: <MdGraphicEq size={20}/>,
+                          label: <MdGraphicEq size={20} />,
                           value:
                             monitor?.monitor_1?.specification?.refresh_rate,
                         },
                         {
-                          label: <RiToolsLine size={20}/>,
+                          label: <RiToolsLine size={20} />,
                           value: monitor?.monitor_1?.specification?.feature,
                         },
                       ]
@@ -125,28 +130,26 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                 link={monitor?.monitor_1?.link_tokopedia}
               />
               <ComponentCard
-                title={
-                  monitor?.monitor_2?.model_name 
-                }
+                title={monitor?.monitor_2?.model_name}
                 image={monitor?.monitor_2?.image_url}
                 specs={
                   monitor
                     ? [
                         {
-                          label: <MdOutlineDateRange size={20}/>,
+                          label: <MdOutlineDateRange size={20} />,
                           value: monitor?.monitor_2?.year,
                         },
                         {
-                          label: <FiMonitor size={20}/>,
+                          label: <FiMonitor size={20} />,
                           value: monitor?.monitor_2?.specification?.resolution,
                         },
                         {
-                          label: <MdGraphicEq size={20}/>,
+                          label: <MdGraphicEq size={20} />,
                           value:
                             monitor?.monitor_2?.specification?.refresh_rate,
                         },
                         {
-                          label: <RiToolsLine size={20}/>,
+                          label: <RiToolsLine size={20} />,
                           value: monitor?.monitor_2?.specification?.feature,
                         },
                       ]
@@ -160,7 +163,10 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                 specs={
                   mouse
                     ? [
-                        { label: <CiDesktopMouse1 size={20}/>, value: mouse?.specifications?.dpi },
+                        {
+                          label: <CiDesktopMouse1 size={20} />,
+                          value: mouse?.specifications?.dpi,
+                        },
                         {
                           label: <BsUsb size={20} />,
                           value: mouse?.specifications?.type,
@@ -170,7 +176,7 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                           value: mouse?.specifications?.connectivity,
                         },
                         {
-                          label: <RiToolsLine size={20}/>,
+                          label: <RiToolsLine size={20} />,
                           value: mouse?.specifications?.features || "-",
                         },
                       ]
@@ -196,7 +202,7 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                           value: keyboard?.specifications?.layout,
                         },
                         {
-                          label: <RiToolsLine size={20}/>,
+                          label: <RiToolsLine size={20} />,
                           value: keyboard?.specifications?.features,
                         },
                       ]
@@ -204,74 +210,99 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                 }
               />
               <ComponentCard
-                title={mouse_pad?.model_name }
+                title={mouse_pad?.model_name}
                 image={mouse_pad?.image_url}
                 specs={
-                  mouse_pad ? [{ label: <IoIosResize size={20}/>, value: mouse_pad?.size }] : []
+                  mouse_pad
+                    ? [
+                        {
+                          label: <IoIosResize size={20} />,
+                          value: mouse_pad?.size,
+                        },
+                      ]
+                    : []
                 }
               />
               {others.is_others ? (
                 <>
-                <ComponentCard
-                  title={others?.bracket?.model_name}
-                  image={others?.bracket?.image_url}
-                  specs={
-                    bracket ? [
-                      { label: "Price", value: bracket?.price },
-                      { label: "Size", value: bracket?.size }
-                    ] : []
-                  }
-                />
-                <ComponentCard
-                  title={others?.game_pad?.model_name}
-                  image={others?.game_pad?.image_url}
-                  specs={
-                    bracket ? [
-                      { label: <CiDollar size={20} />, value: game_pad?.price },
-                      { label: <AiOutlineUsb size={20} />, value: game_pad?.specification?.connection }
-                    ] : []
-                  }
-                />
-                <ComponentCard
-                  title={others?.streamdeck?.model_name}
-                  image={others?.streamdeck?.image_url}
-                  specs={
-                    bracket ? [
-                      { label: "Price", value: streamdeck?.price },
-                      { label: "Size", value: streamdeck?.size }
-                    ] : []
-                  }
-                />
-                <ComponentCard
-                  title={others?.armrest?.model_name}
-                  image={others?.armrest?.image_url}
-                  specs={
-                    bracket ? [
-                      { label: "Price", value: bracket?.price },
-                      { label: "Size", value: bracket?.size }
-                    ] : []
-                  }
-                />
-                <ComponentCard
-                  title={others?.desk_lamp?.model_name}
-                  image={others?.desk_lamp?.image_url}
-                  specs={
-                    bracket ? [
-                      { label: "Price", value: bracket?.price },
-                      { label: "Size", value: bracket?.size }
-                    ] : []
-                  }
-                />
-                <ComponentCard
-                  title={others?.monitor_lamp?.model_name}
-                  image={others?.monitor_lamp?.image_url}
-                  specs={
-                    bracket ? [
-                      { label: "Price", value: bracket?.price },
-                      { label: "Size", value: bracket?.size }
-                    ] : []
-                  }
-                />
+                  <ComponentCard
+                    title={others?.bracket?.model_name}
+                    image={others?.bracket?.image_url}
+                    specs={
+                      bracket
+                        ? [
+                            { label: "Price", value: bracket?.price },
+                            { label: "Size", value: bracket?.size },
+                          ]
+                        : []
+                    }
+                  />
+                  <ComponentCard
+                    title={others?.game_pad?.model_name}
+                    image={others?.game_pad?.image_url}
+                    specs={
+                      bracket
+                        ? [
+                            {
+                              label: <CiDollar size={20} />,
+                              value: game_pad?.price,
+                            },
+                            {
+                              label: <AiOutlineUsb size={20} />,
+                              value: game_pad?.specification?.connection,
+                            },
+                          ]
+                        : []
+                    }
+                  />
+                  <ComponentCard
+                    title={others?.streamdeck?.model_name}
+                    image={others?.streamdeck?.image_url}
+                    specs={
+                      bracket
+                        ? [
+                            { label: "Price", value: streamdeck?.price },
+                            { label: "Size", value: streamdeck?.size },
+                          ]
+                        : []
+                    }
+                  />
+                  <ComponentCard
+                    title={others?.armrest?.model_name}
+                    image={others?.armrest?.image_url}
+                    specs={
+                      bracket
+                        ? [
+                            { label: "Price", value: bracket?.price },
+                            { label: "Size", value: bracket?.size },
+                          ]
+                        : []
+                    }
+                  />
+                  <ComponentCard
+                    title={others?.desk_lamp?.model_name}
+                    image={others?.desk_lamp?.image_url}
+                    specs={
+                      bracket
+                        ? [
+                            { label: "Price", value: bracket?.price },
+                            { label: "Size", value: bracket?.size },
+                          ]
+                        : []
+                    }
+                  />
+                  <ComponentCard
+                    title={others?.monitor_lamp?.model_name}
+                    image={others?.monitor_lamp?.image_url}
+                    specs={
+                      bracket
+                        ? [
+                            { label: "Price", value: bracket?.price },
+                            { label: "Size", value: bracket?.size },
+                          ]
+                        : []
+                    }
+                  />
                 </>
               ) : null}
             </div>

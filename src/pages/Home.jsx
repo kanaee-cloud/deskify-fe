@@ -1,5 +1,7 @@
+import { motion } from "framer-motion";
 import React from "react";
 import { Link } from "react-router-dom";
+import { fadeIn } from "../utilities/Variants";
 
 const Home = () => {
   const handleSmoothScroll = (event) => {
@@ -17,26 +19,47 @@ const Home = () => {
     <>
       <div>
         <div className="bg-home bg-no-repeat bg-top h-screen flex flex-col justify-center items-center mt-20">
-          <div className="flex flex-col gap-y-10 text-center">
+          <motion.div
+            variants={fadeIn("down", 0.2)}
+            whileInView={"show"}
+            initial="hidden"
+            viewport={{ once: false, amount: 0.7 }}
+            className="flex flex-col gap-y-10 text-center"
+          >
             <h1 className="lg:text-6xl text-3xl font-medium text-center">
               Build Your Ultimate Laptop <br /> Setup with Ease.
             </h1>
             <h2 className="lg:text-xl mb-10 font-light text-center opacity-50">
               We Help You Choose Your Perfect Laptop Setup
             </h2>
-          </div>
-          <a href="#section2" className="scroll-smooth" onClick={handleSmoothScroll}>
-            <div className="arrow mt-14">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </a>
+          </motion.div>
+          <motion.div
+            variants={fadeIn("up", 0.4)}
+            whileInView={"show"}
+            initial="hidden"
+            viewport={{ once: false, amount: 0.7 }}
+          >
+            <a
+              href="#section2"
+              className="scroll-smooth"
+              onClick={handleSmoothScroll}
+            >
+              <div className="arrow mt-14">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </a>
+          </motion.div>
         </div>
 
-        <div
+        <motion.div
+          variants={fadeIn("up", 0.2)}
+          whileInView={"show"}
+          initial="hidden"
+          viewport={{ once: false, amount: 0.7 }}
           id="section2"
-          className="h-[60svh] flex justify-center items-center md:gap-x-20 gap-x-10"
+          className="h-screen flex justify-center items-center md:gap-x-20 gap-x-10"
         >
           <Link to="/desk" className="w-full">
             <div className="flex flex-col items-center text-center group p-6 rounded-e-lg relative overflow-hidden">
@@ -87,9 +110,13 @@ const Home = () => {
               />
             </div>
           </Link>
-        </div>
+        </motion.div>
 
-        <div
+        <motion.div
+          variants={fadeIn("up", 0.2)}
+          whileInView={"show"}
+          initial="hidden"
+          viewport={{ once: false, amount: 0.7 }}
           id="section3"
           className="h-[60svh] text-white flex items-center justify-center"
         >
@@ -111,11 +138,15 @@ const Home = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div
+        <motion.div
+          variants={fadeIn("down", 0.2)}
+          whileInView={"show"}
+          initial="hidden"
+          viewport={{ once: false, amount: 0.7 }}
           id="section4"
-          className="h-[60svh] bg-information bg-no-repeat bg-center flex flex-col justify-center items-center"
+          className="h-screen bg-information bg-no-repeat bg-center flex flex-col justify-center items-center"
         >
           <div className="max-w-full md:text-center px-4">
             <h1 className="text-2xl md:text-4xl font-medium text-white mb-4">
@@ -127,11 +158,10 @@ const Home = () => {
               to work without collecting any of your personal information.
             </h2>
           </div>
-        </div>
+        </motion.div>
       </div>
     </>
   );
 };
 
 export default Home;
-

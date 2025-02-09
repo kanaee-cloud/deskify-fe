@@ -95,6 +95,10 @@ input[type="checkbox"]:hover {
   body {
     @apply font-primary bg-primary text-white;
   }
+
+  .Toastify__toast {
+    @apply font-primary
+  }
 }
 
 /* Custom Scrollbar */
@@ -170,3 +174,4 @@ input[type="checkbox"]:hover {
   opacity: 0;
   transition: opacity 300ms ease-in-out;
 }
+
