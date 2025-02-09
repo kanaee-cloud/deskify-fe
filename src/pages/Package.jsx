@@ -1,11 +1,21 @@
 //package.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PackageCard from "../components/PackageCard";
 import usePackages from "../hooks/usePackages";
+import PackageSkeletonGrid from "../components/PackageCardSkeleton";
 
 const Package = () => {
   const { packages, page, totalPages, nextPage, prevPage } =
     usePackages(1);
+
+    const [isLoading, setIsLoading] = useState(true)
+
+      useEffect(() => {
+        if (packages.length > 0) {
+          setIsLoading(false);
+        }
+      }, [packages]);
+    
 
   return (
     <>
@@ -36,12 +46,14 @@ const Package = () => {
           </button>
 
           {/* Cards Container */}
-          {packages ? (
+          {isLoading ? (
+            <PackageSkeletonGrid />
+          ) : packages.length > 0 ? (
             <div className="grid justify-center mx-auto grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {packages.map((pkg) => (
                 <PackageCard
                   key={pkg.id}
-                  
+                  id={pkg.id}
                   tier={pkg.tier}
                   description={pkg.description}
                   priceRange={pkg.price_range}

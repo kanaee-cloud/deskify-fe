@@ -3,14 +3,15 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaFileImage } from "react-icons/fa";
+import useLocalPackage from "../hooks/useLocalPackage";
+import { truncateText } from "../utilities/TruncateText";
+import useLocalLaptop from "../hooks/useLocalLaptop";
+import { FormatMoney } from "../utilities/FormatMoney";
 
 const Bookmark = ({ isOpen, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const bookmarks = [
-    { id: 1, name: "Pre-build 1", description: "Lorem Ipsum Bla Bla...." },
-    { id: 2, name: "Laptop 1", description: "Lorem Ipsum Bla Bla...." },
-    { id: 3, name: "Custom 1", description: "Lorem Ipsum Bla Bla...." },
-  ];
+  const { packages, removePackages } = useLocalPackage();
+  const { laptop, removeLaptop } = useLocalLaptop();
 
   useEffect(() => {
     if (isOpen) {
@@ -25,18 +26,21 @@ const Bookmark = ({ isOpen, onClose }) => {
     }, 300);
   };
 
+  
+  const isEmpty = (!packages || packages.length === 0) && (!laptop || laptop.length === 0);
+
   return (
     <>
-      <div 
+      <div
         className={`fixed inset-0 bg-black transition-opacity duration-300 ease-in-out z-40 
-          ${isVisible ? 'bg-opacity-50' : 'bg-opacity-0 pointer-events-none'}`}
+          ${isVisible ? "bg-opacity-50" : "bg-opacity-0 pointer-events-none"}`}
         onClick={handleClose}
       />
 
       <div
         className={`fixed top-0 right-0 z-50 w-80 h-full border-l-2 border-accent 
           bg-primary shadow-lg text-white p-7 transition-transform duration-300 ease-in-out
-          ${isVisible ? 'translate-x-0' : 'translate-x-full'}`}
+          ${isVisible ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="flex items-center gap-6">
           <button onClick={handleClose} className="text-red-500">
@@ -48,30 +52,86 @@ const Bookmark = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        <ul className="mt-12 space-y-3">
-          {bookmarks.map((item, index) => (
-            <li
-              key={item.id}
-              style={{
-                opacity: 0,
-                animation: isVisible ? `fadeSlideIn 0.2s ease-out forwards ${index * 0.2}s` : 'none'
-              }}
-              className="flex items-center justify-between border-b border-accent pb-2"
-            >
-              <div className="flex items-center gap-3 ml-3">
-                <FaFileImage size={20} className="text-accent" />
-                <div className="flex flex-col">
-                  <p className="font-medium">{item.name}</p>
-                  <p className="text-xs text-gray-400">{item.description}</p>
-                </div>
-              </div>
+        
+        {isEmpty ? (
+          <div className="mt-12 text-center text-gray-400">
+            <p className="text-lg">No bookmarked item yet</p>
+          </div>
+        ) : (
+          <>
+           
+            {packages && packages.length > 0 && (
+              <ul className="mt-12 space-y-3">
+                <h1 className="text-xl font-semibold">Packages</h1>
+                {packages.map((item, index) => (
+                  <li
+                    key={item.id}
+                    style={{
+                      opacity: 0,
+                      animation: isVisible
+                        ? `fadeSlideIn 0.2s ease-out forwards ${index * 0.2}s`
+                        : "none",
+                    }}
+                    className="flex items-center justify-between border-b border-accent pb-2"
+                  >
+                    <div className="flex items-center gap-3 ml-3">
+                      <FaFileImage size={20} className="text-accent" />
+                      <div className="flex flex-col">
+                        <p className="font-medium">{item.tier}</p>
+                        <p className="text-xs text-gray-400">
+                          {truncateText(item.description)}
+                        </p>
+                      </div>
+                    </div>
 
-              <button className="text-red-500 mr-3">
-                <IoMdCloseCircle size={20} />
-              </button>
-            </li>
-          ))}
-        </ul>
+                    <button
+                      onClick={() => removePackages(item.id)}
+                      className="text-red-500 mr-3"
+                    >
+                      <IoMdCloseCircle size={20} />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+           
+            {laptop && laptop.length > 0 && (
+              <ul className="mt-12 space-y-3">
+                <h1 className="text-xl font-semibold">Laptops</h1>
+                {laptop.map((item, index) => (
+                  <li
+                    key={item.id}
+                    style={{
+                      opacity: 0,
+                      animation: isVisible
+                        ? `fadeSlideIn 0.2s ease-out forwards ${index * 0.2}s`
+                        : "none",
+                    }}
+                    className="flex items-center justify-between border-b border-accent pb-2"
+                  >
+                    <div className="flex items-center gap-3 ml-3">
+                      <FaFileImage size={20} className="text-accent" />
+                      <div className="flex flex-col">
+                        <p className="font-medium">{truncateText(item.name)}</p>
+                        <p className="text-xs text-gray-400">
+                          {FormatMoney(item.price)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => removeLaptop(item.id)}
+                      className="text-red-500 mr-3"
+                    >
+                      <IoMdCloseCircle size={20} />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </>
+        )}
       </div>
 
       <style jsx>{`

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { TbArrowsSort } from "react-icons/tb";
 import useLaptops from "../hooks/useLaptops";
 import LaptopCard from "../components/LaptopCard";
 import SearchLaptops from "../components/SearchLaptops";
@@ -16,7 +15,7 @@ const Laptop = () => {
   useEffect(() => {
     if (laptops.length > 0) {
       setFilteredLaptops(laptops);
-      setInitialCount(laptops.length); // Set actual count from API
+      setInitialCount(laptops.length);
       setIsLoading(false);
     }
   }, [laptops]);
@@ -25,6 +24,7 @@ const Laptop = () => {
 
   return (
     <>
+    
       <section className="bg-header bg-no-repeat bg-center h-[70vh]  flex items-center justify-center">
         <div className="text-center flex flex-col items-center">
           <h1 className="md:text-5xl font-semibold mb-5">Laptop Comparison</h1>
@@ -57,6 +57,9 @@ const Laptop = () => {
                   ram={laptop.ram}
                   memory={laptop.memory}
                   display={laptop.display}
+                  price={laptop.price}
+                  processor={laptop.processor}
+                  gpu={laptop.gpu}
                   id={laptop.id}
                 />
               ))}
