@@ -3,7 +3,7 @@ import { FaRegKeyboard } from "react-icons/fa";
 import { truncateText } from "../utilities/TruncateText";
 import { FiMonitor } from "react-icons/fi";
 import { FiMousePointer } from "react-icons/fi";
-import PackageDetailModal from "./PackageDetailModal";
+import PackageDetailModal from "./PackageDetailModal";  
 import useLocalPackage from "../hooks/useLocalPackage";
 import { IoBookmarks, IoBookmarksOutline } from "react-icons/io5";
 import { ImSpinner2 } from "react-icons/im";

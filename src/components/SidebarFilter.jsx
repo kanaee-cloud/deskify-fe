@@ -1,127 +1,141 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { CiCircleMinus } from "react-icons/ci";
 import { TbArrowsSort } from "react-icons/tb";
 import useComparisons from "../hooks/useComparisons";
 
 const SidebarFilter = ({ laptops, setFilteredLaptops }) => {
-  const [sortByPrice, setSortByPrice] = useState(false);
-  const [sortByStorage, setSortByStorage] = useState(false);
-  const [sortByRam, setSortByRam] = useState(false);
+  const [sortOption, setSortOption] = useState("name");
+  const [selectedStorage, setSelectedStorage] = useState([]);
+  const [selectedRam, setSelectedRam] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const { comparisons, removeComparison } = useComparisons();
 
-  // useEffect(() => {
-  //   const savedComparisons =
-  //     JSON.parse(localStorage.getItem("comparisons")) || [];
-  //   setComparisons(savedComparisons);
-  // }, []);
-
-  useEffect(() => {
-    let filtered = [...laptops];
-
-    if (sortByPrice) {
-      filtered.sort((a, b) => a.price - b.price);
-    }
-
-    if (sortByStorage) {
-      filtered.sort((a, b) => parseInt(a.memory) - parseInt(b.memory));
-    }
-
-    if (sortByRam) {
-      filtered.sort((a, b) => parseInt(a.ram) - parseInt(b.ram));
-    }
-
-    if (selectedBrands.length > 0) {
-      filtered = filtered.filter((laptop) =>
-        selectedBrands.includes(laptop.brand)
-      );
-    }
-
-    setFilteredLaptops(filtered);
-  }, [
-    sortByPrice,
-    sortByStorage,
-    sortByRam,
-    selectedBrands,
-    laptops,
-    setFilteredLaptops,
-  ]);
-
-  const handleBrandChange = (brand) => {
-    setSelectedBrands((prev) =>
-      prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
-    );
+  // Extract RAM size from RAM string (e.g., "16GB DDR4" -> 16)
+  const extractRamSize = (ramString) => {
+    const match = ramString.match(/(\d+)GB/i);
+    return match ? parseInt(match[1]) : 0;
   };
 
-  const uniqueBrands = [...new Set(laptops.map((laptop) => laptop.brand))];
+  // Memoized unique values
+  const { uniqueBrands, uniqueStorage, uniqueRam } = useMemo(() => {
+    const brands = [...new Set(laptops.map((laptop) => laptop.brand))];
+    const storage = [...new Set(laptops.map((laptop) => laptop.memory))].sort((a, b) => 
+      parseInt(a) - parseInt(b)
+    );
+    const ram = [...new Set(laptops.map((laptop) => extractRamSize(laptop.ram)))].sort((a, b) => a - b);
+
+    return {
+      uniqueBrands: brands,
+      uniqueStorage: storage,
+      uniqueRam: ram
+    };
+  }, [laptops]);
+
+  // Combined filter and sort effect
+  useEffect(() => {
+    const filtered = laptops.filter(laptop => {
+      const ramSize = extractRamSize(laptop.ram);
+      
+      const matchesRam = selectedRam.length === 0 || selectedRam.includes(ramSize);
+      const matchesStorage = selectedStorage.length === 0 || selectedStorage.includes(laptop.memory);
+      const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(laptop.brand);
+
+      return matchesRam && matchesStorage && matchesBrand;
+    });
+
+    const sorted = [...filtered].sort((a, b) => {
+      if (sortOption === "price") {
+        return a.price - b.price;
+      }
+      return a.model_name.localeCompare(b.model_name);
+    });
+
+    setFilteredLaptops(sorted);
+  }, [sortOption, selectedStorage, selectedRam, selectedBrands, laptops, setFilteredLaptops]);
+
+  const handleFilterChange = (setter) => (value) => {
+    setter((prev) => prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]);
+  };
 
   return (
     <div className="md:w-1/4">
-      <div className="mb-3">
+      <div className="dropdown mb-3">
         <p className="text-md mb-2">Sort By</p>
-        <div
-          className="bg-accent text-sm flex items-center px-4 py-2 rounded-lg justify-between text-primary cursor-pointer"
-          onClick={() => setSortByPrice(!sortByPrice)}
+        <button
+            className="bg-accent w-full flex justify-between items-center text-sm text-start px-4 py-2 rounded-lg text-primary cursor-pointer "
+          onClick={() => setSortOption(prevOption => prevOption === "name" ? "price" : "name")}
         >
-          <p>Price</p>
-          <TbArrowsSort />
-        </div>
+          {sortOption === "price" ? "Price" : "Name"}
+          <TbArrowsSort/>
+        </button>
       </div>
-      <div>
-        <p className="text-md mb-2">Brands</p>
-        <div className="bg-accent flex text-sm flex-col gap-y-2 mb-3 px-4 py-2 rounded-lg text-primary">
-          {uniqueBrands.map((brand) => (
-            <label key={brand} className="flex items-center gap-x-2">
-              <input
-                type="checkbox"
-                checked={selectedBrands.includes(brand)}
-                onChange={() => handleBrandChange(brand)}
-              />
-              <p>{brand}</p>
-            </label>
-          ))}
-        </div>
-      </div>
+
+      <FilterSection
+        title="Brands"
+        items={uniqueBrands}
+        selectedItems={selectedBrands}
+        onChange={handleFilterChange(setSelectedBrands)}
+        formatLabel={(brand) => brand.charAt(0).toUpperCase() + brand.slice(1)}
+      />
+
+      <FilterSection
+        title="Storage"
+        items={uniqueStorage}
+        selectedItems={selectedStorage}
+        onChange={handleFilterChange(setSelectedStorage)}
+      />
+
+      <FilterSection
+        title="Ram"
+        items={uniqueRam}
+        selectedItems={selectedRam}
+        onChange={handleFilterChange(setSelectedRam)}
+        formatLabel={(ram) => `${ram}GB`}
+      />
+
       <div className="mb-3">
-        <p className="text-md mb-2">Storage</p>
-        <div
-          className="bg-accent text-sm flex items-center px-4 py-2 rounded-lg justify-between text-primary cursor-pointer mt-2"
-          onClick={() => setSortByStorage(!sortByStorage)}
-        >
-          <p>Storage</p>
-          <TbArrowsSort />
-        </div>
-      </div>
-      <div className="mb-3">
-        <p className="text-md mb-2">Ram</p>
-        <div
-          className="bg-accent text-sm flex items-center px-4 py-2 rounded-lg justify-between text-primary cursor-pointer mt-2"
-          onClick={() => setSortByRam(!sortByRam)}
-        >
-          <p>Ram</p>
-          <TbArrowsSort />
-        </div>
-      </div>
-      <div className="mb-3">
-        <p className="text-md text-center bg-accent p-2 text-primary font-semibold rounded-md">Compare</p>
+        <p className="text-md text-center bg-accent p-2 text-primary font-semibold rounded-t-lg">
+          Compare
+        </p>
         <div className="border-accent border flex text-sm flex-col gap-y-2 mb-3 px-4 py-2 rounded-b-lg text-primary">
-          {comparisons.map((laptop, index) => (
-            <div key={index} className="flex justify-between items-center gap-x-2">
-              <p className="text-white opacity-70">{laptop.name}</p>
-              <button
-                onClick={() => {
-                  removeComparison(laptop.id)
-                }}
-                className="text-white"
-              >
-                <CiCircleMinus size={20} className="text-red-500"/>
-              </button>
-            </div>
-          ))}
+          {comparisons.length === 0 ? (
+            <p className="text-white text-center opacity-70">No comparisons added yet</p>
+          ) : (
+            comparisons.map((laptop, index) => (
+              <div key={index} className="flex justify-between items-center gap-x-2">
+                <p className="text-white opacity-70">{laptop.name}</p>
+                <button
+                  onClick={() => removeComparison(laptop.id)}
+                  className="text-white"
+                >
+                  <CiCircleMinus size={20} className="text-red-500" />
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
   );
 };
+
+// Reusable FilterSection component
+const FilterSection = ({ title, items, selectedItems, onChange, formatLabel = (item) => item }) => (
+  <div className="mb-3">
+    <p className="text-md mb-2">{title}</p>
+    <div className="bg-accent text-sm flex flex-col gap-y-3 p-4 rounded-lg text-primary">
+      {items.map((item) => (
+        <label key={item} className="flex items-center gap-x-2">
+          <input
+            type="checkbox"
+            checked={selectedItems.includes(item)}
+            onChange={() => onChange(item)}
+          />
+          <p>{formatLabel(item)}</p>
+        </label>
+      ))}
+    </div>
+  </div>
+);
 
 export default SidebarFilter;

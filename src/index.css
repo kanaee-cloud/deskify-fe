@@ -171,3 +171,10 @@ input[type="checkbox"]:hover {
   transition: opacity 300ms ease-in-out;
 }
 
+.dropdown select {
+ --webkit-appearance: none;
+ --moz-appearance: none;
+ appearance: none;
+ outline: none;
+}
+

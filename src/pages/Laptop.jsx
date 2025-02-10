@@ -5,45 +5,38 @@ import SearchLaptops from "../components/SearchLaptops";
 import LaptopSkeletonGrid from "../components/LaptopCardSkeleton";
 import SidebarFilter from "../components/SidebarFilter";
 
-
 const Laptop = () => {
   const { laptops } = useLaptops();
-  const [filteredLaptops, setFilteredLaptops] = useState(laptops);
+  const [filteredLaptops, setFilteredLaptops] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [initialCount, setInitialCount] = useState(laptops.length);
+  const [initialCount, setInitialCount] = useState(0);
 
   useEffect(() => {
     if (laptops.length > 0) {
-      setFilteredLaptops(laptops);
+  
+      const sortedLaptops = [...laptops].sort((a, b) => 
+        a.model_name.localeCompare(b.model_name)
+      );
+      setFilteredLaptops(sortedLaptops);
       setInitialCount(laptops.length);
       setIsLoading(false);
     }
   }, [laptops]);
 
-  console.log(laptops);
-
   return (
     <>
-    
-      <section className="bg-header bg-no-repeat bg-center h-[70vh]  flex items-center justify-center">
+      <section className="bg-header bg-no-repeat bg-center h-[30vh] mt-24 flex items-center justify-center">
         <div className="text-center flex flex-col items-center">
           <h1 className="md:text-5xl font-semibold mb-5">Laptop Comparison</h1>
-          {/* <div className="relative w-full">
-            <input
-              type="text"
-              placeholder="Search Brands, Name ..."
-              className="px-6 outline-none rounded-full text-primary py-2 placeholder:font-normal w-full pr-12"
-            />
-            <button className="absolute right-2 top-1/2 transform bg-accent p-1 px-2 rounded-full -translate-y-1/2">
-              <IoIosSearch className="text-black text-xl" />
-            </button>
-          </div> */}
-
           <SearchLaptops setFilteredLaptops={setFilteredLaptops} />
         </div>
       </section>
       <section className="md:flex px-8 py-4 gap-6">
-        <SidebarFilter laptops={laptops} setFilteredLaptops={setFilteredLaptops}/>
+        <SidebarFilter 
+          laptops={laptops} 
+          setFilteredLaptops={setFilteredLaptops}
+          initialSortApplied={!isLoading} // Pass this to indicate initial sort is done
+        />
         <div className="flex-1">
           {isLoading ? (
             <LaptopSkeletonGrid />
