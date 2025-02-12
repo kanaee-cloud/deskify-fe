@@ -9,12 +9,16 @@ const Laptop = () => {
   const { laptops } = useLaptops();
   const [filteredLaptops, setFilteredLaptops] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(12);
   const [initialCount, setInitialCount] = useState(0);
+
+  const handleShowMore = () => {
+    setVisibleCount((prevCount) => prevCount + 21, filteredLaptops.length);
+  };
 
   useEffect(() => {
     if (laptops.length > 0) {
-  
-      const sortedLaptops = [...laptops].sort((a, b) => 
+      const sortedLaptops = [...laptops].sort((a, b) =>
         a.model_name.localeCompare(b.model_name)
       );
       setFilteredLaptops(sortedLaptops);
@@ -32,8 +36,8 @@ const Laptop = () => {
         </div>
       </section>
       <section className="md:flex px-8 py-4 gap-6">
-        <SidebarFilter 
-          laptops={laptops} 
+        <SidebarFilter
+          laptops={laptops}
           setFilteredLaptops={setFilteredLaptops}
           initialSortApplied={!isLoading} // Pass this to indicate initial sort is done
         />
@@ -41,22 +45,34 @@ const Laptop = () => {
           {isLoading ? (
             <LaptopSkeletonGrid />
           ) : filteredLaptops.length > 0 ? (
-            <div className="grid justify-center mx-auto grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredLaptops.map((laptop) => (
-                <LaptopCard
-                  key={laptop.id}
-                  name={laptop.model_name}
-                  image={laptop.image_url}
-                  ram={laptop.ram}
-                  memory={laptop.memory}
-                  display={laptop.display}
-                  price={laptop.price}
-                  processor={laptop.processor}
-                  gpu={laptop.gpu}
-                  id={laptop.id}
-                />
-              ))}
-            </div>
+            <>
+              <div className="grid justify-center mx-auto grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {filteredLaptops.slice(0, visibleCount).map((laptop) => (
+                  <LaptopCard
+                    key={laptop.id}
+                    name={laptop.model_name}
+                    image={laptop.image_url}
+                    ram={laptop.ram}
+                    memory={laptop.memory}
+                    display={laptop.display}
+                    price={laptop.price}
+                    processor={laptop.processor}
+                    gpu={laptop.gpu}
+                    id={laptop.id}
+                  />
+                ))}
+              </div>
+              {visibleCount < filteredLaptops.length && (
+                <div className="flex justify-center mt-6">
+                  <button
+                    className="px-4 py-2 bg-accent w-full rounded-lg text-primary"
+                    onClick={handleShowMore}
+                  >
+                    Load More
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="h-full flex justify-center items-center">
               tidak ada yang tersedia

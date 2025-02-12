@@ -7,6 +7,7 @@ import PackageDetailModal from "./PackageDetailModal";
 import useLocalPackage from "../hooks/useLocalPackage";
 import { IoBookmarks, IoBookmarksOutline } from "react-icons/io5";
 import { ImSpinner2 } from "react-icons/im";
+import { CiCircleInfo } from "react-icons/ci";
 
 const PackageCard = ({ id, tier, description, priceRange, components }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -104,15 +105,15 @@ const PackageCard = ({ id, tier, description, priceRange, components }) => {
 
         {/* Bottom Section */}
         <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+          <div className="flex justify-between items-center space-x-2">
             <span className="bg-accent w-fit text-black text-xs rounded-md font-medium px-2 py-2 whitespace-nowrap">
               {priceRange}
             </span>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="text-white text-sm font-normal hover:underline text-wrap"
+              className="text-accent text-sm font-normal hover:underline text-wrap"
             >
-              More Detail
+              <CiCircleInfo size={30}/>
             </button>
           </div>
         </div>
