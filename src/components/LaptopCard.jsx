@@ -53,21 +53,21 @@ const LaptopCard = ({
 
   return (
     <>
-      <div className="border border-gray-300 border-opacity-60 rounded-md ">
+      <div className="max-h-[30vh] border border-gray-300 border-opacity-60 rounded-md ">
         <div
-          className="flex items-center gap-x-2  w-full px-4 py-4 cursor-pointer"
+          className="flex items-center gap-x-5 w-full px-4 py-4 cursor-pointer"
           onClick={() => setIsModalOpen(true)}
         >
           <div>
             <img
               src={image}
               alt={name}
-              className="w-auto h-[15vh] object-cover rounded-lg"
+              className="w-auto h-[15vh] object-contain rounded-lg"
             />
           </div>
           <div className="flex flex-col gap-y-2">
-            <h1 className="text-sm font-light">{name}</h1>
-            <div className="flex w-full justify-center gap-x-4 opacity-70 items-center">
+            <h1 className="w-full text-sm font-light ">{name}</h1>
+            <div className="flex w-full gap-x-4 opacity-70 items-center">
               <p className="flex items-center  text-xs gap-x-1">
                 <CgSmartphoneRam size={15} className="text-accent" />
                 {extractText(ram)}

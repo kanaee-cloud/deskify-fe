@@ -20,7 +20,7 @@ const Package = () => {
 
   return (
     <>
-      <section className="bg-header bg-no-repeat bg-center h-[70vh] flex items-center justify-center">
+      <section className="bg-header bg-no-repeat bg-center h-[30vh] flex items-center justify-center">
         <div className="text-center ">
           <h1 className="md:text-5xl font-semibold mb-5">Setup Pre-Build</h1>
           <p className="text-2xl opacity-70">
@@ -28,7 +28,7 @@ const Package = () => {
           </p>
         </div>
       </section>
-      <div className="p-4 h-screen">
+      <div className="p-4 h-fit my-5">
         <div className="relative max-w-[90rem] mx-auto px-12">
           <button
             onClick={prevPage}

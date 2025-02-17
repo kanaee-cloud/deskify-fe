@@ -5,20 +5,26 @@ import { IoBookmarksOutline } from "react-icons/io5";
 import Bookmark from "./Bookmark";
 
 const Navbar = () => {
-  const [isSticky, setIsSticky] = useState(false);
+  // const [isSticky, setIsSticky] = useState(false);
   const [isBookmarkOpen, setIsBookmarkOpen] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsSticky(window.scrollY > 0);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setIsSticky(window.scrollY > 0);
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
+
+  // ${
+  //   isSticky
+  //     ? "fixed top-0 left-0 right-0 bg-primary shadow-lg"
+  //     : "relative bg-transparent"
+  // }
 
   const getNavLinkClass = (href) => {
     return `text-white ${
@@ -31,11 +37,7 @@ const Navbar = () => {
   return (
     <>
       <header
-        className={`${
-          isSticky
-            ? "fixed top-0 left-0 right-0 bg-primary shadow-lg"
-            : "relative bg-transparent"
-        } border rounded-lg m-4 border-accent flex items-center justify-between py-3 px-5 z-50 transition-all duration-300`}
+        className={`border bg-primary rounded-lg m-4 border-accent flex items-center justify-between py-3 px-5 z-50 transition-all duration-300`}
       >
         <div className="flex items-center">
           <MdMonitor size={24} className="text-accent" />

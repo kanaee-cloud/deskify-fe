@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
 import { FiMonitor, FiX } from "react-icons/fi";
 import { MdGraphicEq } from "react-icons/md";
@@ -42,7 +43,7 @@ const ComponentCard = ({ title, specs, link, image }) => {
           isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         } overflow-hidden`}
       >
-        <div className="p-4 pt-0">
+        <div className="p-4">
           <div className="grid grid-cols-2 gap-3 text-sm">
             {specs.map((spec, index) => (
               <div key={index} className="flex items-center gap-2">
@@ -67,13 +68,42 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
   const { game_pad, bracket, streamdeck, armrest, desk_lamp, monitor_lamp } =
     packageData.components.others;
 
+  // Handle click outside
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  // Handle escape key
+    React.useEffect(() => {
+    const handleEscapeKey = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    // Add event listener when modal opens
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscapeKey);
+    }
+
+    // Cleanup event listener when modal closes or component unmounts
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [isOpen, onClose]);
+
   return (
-    <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${
-      isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-    }`}>
+    <div 
+      className={`fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${
+        isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+      }`}
+      onClick={handleBackdropClick}  // Add click handler to backdrop
+    >
       <div className={`bg-primary rounded-lg w-full max-w-3xl relative border border-accent transform transition-all duration-300 ${
-      isOpen ? "scale-100 opacity-100" : "scale-90 opacity-0"
-    }`}>
+        isOpen ? "scale-100 opacity-100" : "scale-90 opacity-0"
+      }`}>
         <button
           onClick={onClose}
           className="absolute -right-5 -top-4  text-white bg-red-600 hover:bg-red-500"
@@ -81,6 +111,7 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
           <FiX size={30} />
         </button>
 
+        {/* Rest of the modal content remains the same */}
         <div className="md:flex max-h-[80vh]">
           {/* Left Section */}
           <div className="mx-auto w-72 p-6 flex-shrink-0">

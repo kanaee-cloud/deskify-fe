@@ -104,7 +104,7 @@ const PackageCard = ({ id, tier, description, priceRange, components }) => {
         </div>
 
         {/* Bottom Section */}
-        <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6 flex items-center justify-between">
+        <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6">
           <div className="flex justify-between items-center space-x-2">
             <span className="bg-accent w-fit text-black text-xs rounded-md font-medium px-2 py-2 whitespace-nowrap">
               {priceRange}
