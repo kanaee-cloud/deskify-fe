@@ -58,7 +58,7 @@ const SidebarFilter = ({ laptops, setFilteredLaptops }) => {
   };
 
   return (
-    <div className="md:w-1/4">
+    <div className="md:w-full">
       <div className="dropdown mb-3">
         <p className="text-md mb-2">Sort By</p>
         <button
@@ -90,14 +90,14 @@ const SidebarFilter = ({ laptops, setFilteredLaptops }) => {
         items={uniqueRam}
         selectedItems={selectedRam}
         onChange={handleFilterChange(setSelectedRam)}
-        formatLabel={(ram) => `${ram}GB`}
+        formatLabel={(ram) => `${ram} GB`}
       />
 
-      <div className="mb-3">
+      <div className="mt-6">
         <p className="text-md text-center bg-accent p-2 text-primary font-semibold rounded-t-lg">
           Compare
         </p>
-        <div className="border-accent border flex text-sm flex-col gap-y-2 mb-3 px-4 py-2 rounded-b-lg text-primary">
+        <div className="border-accent border flex text-sm flex-col gap-y-2 px-4 py-2 rounded-b-lg text-primary">
           {comparisons.length === 0 ? (
             <p className="text-white text-center opacity-70">No comparisons added yet</p>
           ) : (

@@ -100,12 +100,12 @@ input[type="checkbox"]:hover {
 /* Custom Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 5px;
+  margin-left: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
   background: #2e2e2e;
   border-radius: 6px;
-  margin: 10px 0;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {

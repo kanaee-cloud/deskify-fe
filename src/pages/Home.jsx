@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import { Link } from "react-router-dom";
 import { fadeIn } from "../utilities/Variants";
+import { MdMonitor } from "react-icons/md";
 
 const Home = () => {
   const handleSmoothScroll = (event) => {
@@ -18,7 +19,7 @@ const Home = () => {
   return (
     <>
       <div>
-        <div className="bg-home bg-no-repeat bg-top h-screen flex flex-col justify-center items-center mt-20">
+        <div className="bg-home bg-no-repeat bg-top h-screen flex flex-col justify-center items-center">
           <motion.div
             variants={fadeIn("down", 0.2)}
             whileInView={"show"}
@@ -26,6 +27,10 @@ const Home = () => {
             viewport={{ once: false, amount: 0.7 }}
             className="flex flex-col gap-y-10 text-center"
           >
+            <div className="flex justify-center items-center">
+                      <MdMonitor size={36} className="text-accent" />
+                      <h1 className="md:text-4xl ml-1 font-medium">Deskify</h1>
+                    </div>
             <h1 className="lg:text-6xl text-3xl font-medium text-center">
               Build Your Ultimate Laptop <br /> Setup with Ease.
             </h1>

@@ -36,7 +36,8 @@ const LaptopDetailModal = ({
       >
         <button
           onClick={onClose}
-          className="absolute -right-5 -top-4  text-white bg-red-600 hover:bg-red-500"
+          onKeyDown={(e) => e.key === 'Escape' && onClose()}
+          className="absolute -right-5 -top-4 text-white bg-red-600 hover:bg-red-500"
         >
           <FiX size={30} />
         </button>
@@ -78,7 +79,7 @@ const LaptopDetailModal = ({
               </div>
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto max-h-[30vh] custom-scrollbar space-y-6">
+          <div className="flex-1 overflow-y-auto max-h-[40vh] custom-scrollbar space-y-5">
             <ComponentCard title={processor} icon={<MdMemory size={30} />} />
             <ComponentCard title={gpu} icon={<BsGpuCard size={30} />} />
             <ComponentCard title={ram} icon={<CgSmartphoneRam size={30} />} />

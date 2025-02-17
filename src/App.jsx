@@ -8,22 +8,24 @@ import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
-    <>
-      <Router>
-        <div className=" fixed top-0 left-0 right-0 z-50">
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        <header className="fixed top-0 left-0 right-0 z-50">
           <Navbar />
-        </div>
-        <ToastContainer /> 
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/laptops" element={<Laptop />}></Route>
-          <Route path="/desk" element={<Package />}></Route>
-        </Routes>
-        <div>
-          <Footer />
-        </div>
-      </Router>
-    </>
+        </header>
+        <ToastContainer />
+        
+        <main className="flex-1 mt-[64px]"> 
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/laptops" element={<Laptop />}></Route>
+            <Route path="/desk" element={<Package />}></Route>
+          </Routes>
+        </main>
+
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

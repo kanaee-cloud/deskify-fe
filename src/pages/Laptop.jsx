@@ -29,19 +29,21 @@ const Laptop = () => {
 
   return (
     <>
-      <section className="bg-header bg-no-repeat bg-center h-[30vh] mt-24 flex items-center justify-center">
+      <section className="bg-header bg-no-repeat bg-center h-[30vh] flex items-center justify-center">
         <div className="text-center flex flex-col items-center">
           <h1 className="md:text-5xl font-semibold mb-5">Laptop Comparison</h1>
           <SearchLaptops setFilteredLaptops={setFilteredLaptops} />
         </div>
       </section>
-      <section className="md:flex px-8 py-4 gap-6">
-        <SidebarFilter
-          laptops={laptops}
-          setFilteredLaptops={setFilteredLaptops}
-          initialSortApplied={!isLoading} // Pass this to indicate initial sort is done
-        />
-        <div className="flex-1">
+      <section className=" md:flex items-start p-8 gap-6 ">
+        <div className="sticky top-20 h-fit w-[20%] max-h-screen pr-4 overflow-auto custom-scrollbar">
+          <SidebarFilter
+            laptops={laptops}
+            setFilteredLaptops={setFilteredLaptops}
+            initialSortApplied={!isLoading}
+          />
+        </div>
+        <div className="flex-1 top-20">
           {isLoading ? (
             <LaptopSkeletonGrid />
           ) : filteredLaptops.length > 0 ? (
