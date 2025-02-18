@@ -96,7 +96,7 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
 
   return (
     <div 
-      className={`fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${
+      className={`fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${
         isOpen ? "opacity-100 visible" : "opacity-0 invisible"
       }`}
       onClick={handleBackdropClick}  // Add click handler to backdrop
@@ -106,7 +106,7 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
       }`}>
         <button
           onClick={onClose}
-          className="absolute -right-5 -top-4  text-white bg-red-600 hover:bg-red-500"
+          className="absolute -right-5 -top-4 rounded-sm text-white bg-red-600 hover:bg-red-500"
         >
           <FiX size={30} />
         </button>
