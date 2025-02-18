@@ -68,6 +68,7 @@ const Laptop = () => {
                     key={laptop.id}
                     name={laptop.model_name}
                     image={laptop.image_url}
+                    brand={laptop.brand}
                     ram={laptop.ram}
                     memory={laptop.memory}
                     display={laptop.display}
@@ -75,6 +76,7 @@ const Laptop = () => {
                     processor={laptop.processor}
                     gpu={laptop.gpu}
                     id={laptop.id}
+                    refresh_rate={laptop.refresh_rate}
                   />
                 ))}
               </div>

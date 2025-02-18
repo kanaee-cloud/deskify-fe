@@ -8,7 +8,6 @@ import { PiMonitorBold } from "react-icons/pi";
 import { TbHeartRateMonitor } from "react-icons/tb";
 
 const Comparison = ({ onBack, comparisons }) => {
-  // Assuming we're comparing the first two laptops in the comparisons array
   const laptop1 = comparisons[0];
   const laptop2 = comparisons[1];
 
@@ -34,11 +33,14 @@ const Comparison = ({ onBack, comparisons }) => {
       {/* Main Content */}
       <div className="flex justify-between items-stretch max-w-4xl w-full">
         {/* Left Laptop */}
-        <div className="w-80 p-4 text-center">
+        <div className="w-fit p-4 text-center">
+          <h2 className="text-2xl font-medium mb-6 text-white text-nowrap">
+            {laptop1?.name}
+          </h2>
           <div className="h-56 flex items-center justify-center mb-4">
             <img 
-              src={laptop1?.image_url || '/placeholder.png'} 
-              alt={laptop1?.model_name || 'Laptop'} 
+              src={laptop1?.image || '/placeholder.png'} 
+              alt={laptop1?.name || 'Laptop'} 
               className="max-h-full object-contain"
             />
           </div>
@@ -46,7 +48,7 @@ const Comparison = ({ onBack, comparisons }) => {
             Rp. {laptop1?.price?.toLocaleString() || '0'}
           </div>
           <div className="text-base space-y-3">
-            <ComparisonItem icon={MdLaptopChromebook} value={laptop1?.brand} align="left" />
+            <ComparisonItem icon={MdLaptopChromebook} value={laptop1?.brand?.toUpperCase()} align="left" />
             <ComparisonItem icon={GiProcessor} value={laptop1?.processor} align="left" />
             <ComparisonItem icon={PiGraphicsCard} value={laptop1?.gpu} align="left" />
             <ComparisonItem icon={RiRam2Line} value={laptop1?.ram} align="left" />
@@ -62,11 +64,14 @@ const Comparison = ({ onBack, comparisons }) => {
         </div>
 
         {/* Right Laptop */}
-        <div className="w-80 p-4 text-center">
+        <div className="w-fit p-4 text-center">
+          <h2 className="text-2xl font-medium mb-6 text-white">
+            {laptop2?.name || 'N/A'}
+          </h2>
           <div className="h-56 flex items-center justify-center mb-4">
             <img 
-              src={laptop2?.image_url || '/placeholder.png'} 
-              alt={laptop2?.model_name || 'Laptop'} 
+              src={laptop2?.image || '/placeholder.png'} 
+              alt={laptop2?.name || 'Laptop'} 
               className="max-h-full object-contain"
             />
           </div>
@@ -74,7 +79,7 @@ const Comparison = ({ onBack, comparisons }) => {
             Rp. {laptop2?.price?.toLocaleString() || '0'}
           </div>
           <div className="text-base space-y-3">
-            <ComparisonItem icon={MdLaptopChromebook} value={laptop2?.brand} align="right" />
+            <ComparisonItem icon={MdLaptopChromebook} value={laptop2?.brand?.toUpperCase()} align="right" />
             <ComparisonItem icon={GiProcessor} value={laptop2?.processor} align="right" />
             <ComparisonItem icon={PiGraphicsCard} value={laptop2?.gpu} align="right" />
             <ComparisonItem icon={RiRam2Line} value={laptop2?.ram} align="right" />

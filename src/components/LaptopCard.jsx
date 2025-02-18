@@ -13,12 +13,14 @@ const LaptopCard = ({
   id,
   name,
   image,
+  brand,
   ram,
   memory,
   display,
   processor,
   gpu,
   price,
+  refresh_rate
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { addLaptop, laptop } = useLocalLaptop();
@@ -87,7 +89,7 @@ const LaptopCard = ({
         </div>
         <button
           onClick={() =>
-            addComparison({ id, name, image, ram, memory, display })
+            addComparison({ id, name, image, brand, processor, gpu, price, ram, memory, display, refresh_rate})
           }
           className="bg-accent hover:bg-yellow-500 transition-all w-full py-1 text-sm rounded-b-md text-primary"
         >
@@ -101,12 +103,14 @@ const LaptopCard = ({
           id,
           name,
           image,
+          brand,
           ram,
           memory,
           display,
           processor,
           gpu,
           price,
+          refresh_rate
         }}
         addComparison={addComparison}
         handleBookmarkClick = {handleBookmarkClick}

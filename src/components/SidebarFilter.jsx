@@ -4,8 +4,9 @@ import { PiMinusCircleDuotone } from "react-icons/pi";
 import { TbArrowsSort } from "react-icons/tb";
 import { MdCompareArrows } from "react-icons/md";
 import useComparisons from "../hooks/useComparisons";
+import { CiCircleMinus } from "react-icons/ci";
 
-const SidebarFilter = ({ laptops, setFilteredLaptops }) => {
+const SidebarFilter = ({ laptops, setFilteredLaptops, onCompare }) => {
   const [sortConfig, setSortConfig] = useState({ field: "price", direction: "asc" });
   const [selectedStorage, setSelectedStorage] = useState([]);
   const [selectedRam, setSelectedRam] = useState([]);
@@ -76,12 +77,7 @@ const SidebarFilter = ({ laptops, setFilteredLaptops }) => {
     }));
   };
 
-  const handleSort = (field) => {
-    setSortConfig(prev => ({
-      field,
-      direction: prev.field === field ? (prev.direction === "asc" ? "desc" : "asc") : "asc"
-    }));
-  };
+  
 
   return (
     <div className="md:w-full">
@@ -129,9 +125,9 @@ const SidebarFilter = ({ laptops, setFilteredLaptops }) => {
       />
 
       <div className="mt-6">
-        <p className="text-md text-center bg-accent p-2 text-primary font-semibold rounded-t-lg">
+        <button onClick={onCompare} className="w-full text-md text-center bg-accent p-2 text-primary font-semibold rounded-t-lg">
           Compare
-        </p>
+        </button>
         <div className="border-accent border flex text-sm flex-col gap-y-2 px-4 py-2 rounded-b-lg text-primary">
           {comparisons.length === 0 ? (
             <p className="text-white text-center opacity-70">
