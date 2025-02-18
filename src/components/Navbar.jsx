@@ -5,39 +5,40 @@ import { IoBookmarksOutline } from "react-icons/io5";
 import Bookmark from "./Bookmark";
 
 const Navbar = () => {
-  // const [isSticky, setIsSticky] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isBookmarkOpen, setIsBookmarkOpen] = useState(false);
   const location = useLocation();
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     setIsSticky(window.scrollY > 0);
-  //   };
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollThreshold = window.innerHeight > 0;
+      setIsScrolled(window.scrollY > scrollThreshold);
+    };
 
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
-
-  // ${
-  //   isSticky
-  //     ? "fixed top-0 left-0 right-0 bg-primary shadow-lg"
-  //     : "relative bg-transparent"
-  // }
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const getNavLinkClass = (href) => {
     return `text-white ${
       location.pathname === href
         ? "border-b-2 border-accent"
-        : "border-b-2 border-transparent hover:border-accent transition-all duration-200"
+        : "border-b-2 border-transparent hover:border-accent transition-all ease-in-out duration-200"
     }`;
   };
 
   return (
     <>
       <header
-        className={`border bg-primary rounded-lg m-4 border-accent flex items-center justify-between py-3 px-5 z-50 transition-all duration-300`}
+        className={`
+          fixed top-0 left-0 right-0 z-50 transition-all duration-400 ease-in-out
+          ${isScrolled 
+            ? "bg-primary/70 backdrop-blur-lg border border-accent rounded-lg m-3" 
+            : "bg-transparent border-transparent mt-2 "}
+          flex items-center justify-between py-3 px-5
+        `}
       >
         <div className="flex items-center">
           <MdMonitor size={24} className="text-accent" />

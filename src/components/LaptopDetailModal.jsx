@@ -37,7 +37,7 @@ const LaptopDetailModal = ({
         <button
           onClick={onClose}
           onKeyDown={(e) => e.key === 'Escape' && onClose()}
-          className="absolute -right-5 -top-4 text-white bg-red-600 hover:bg-red-500"
+          className="absolute rounded-sm -right-5 -top-4 text-white bg-red-600 hover:bg-red-500"
         >
           <FiX size={30} />
         </button>
