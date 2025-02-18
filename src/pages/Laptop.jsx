@@ -12,11 +12,19 @@ const Laptop = () => {
   const [filteredLaptops, setFilteredLaptops] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(12);
-  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
+  const [showComparison, setShowComparison] = useState(false);
   const { comparisons } = useComparisons();
 
   const handleShowMore = () => {
     setVisibleCount((prevCount) => prevCount + 21);
+  };
+
+  const handleCompare = () => {
+    setShowComparison(true);
+  };
+
+  const handleBackToList = () => {
+    setShowComparison(false);
   };
 
   useEffect(() => {
@@ -29,6 +37,10 @@ const Laptop = () => {
     }
   }, [laptops]);
 
+  if (showComparison) {
+    return <Comparison onBack={handleBackToList} comparisons={comparisons} />;
+  }
+
   return (
     <>
       <section className="bg-header bg-no-repeat bg-center h-[30vh] flex items-center justify-center">
@@ -37,12 +49,12 @@ const Laptop = () => {
           <SearchLaptops setFilteredLaptops={setFilteredLaptops} />
         </div>
       </section>
-      <section className=" md:flex items-start p-8 gap-6 ">
+      <section className="md:flex items-start p-8 gap-6">
         <div className="sticky top-20 h-fit w-[20%] max-h-screen pr-4 overflow-auto custom-scrollbar">
           <SidebarFilter
             laptops={laptops}
             setFilteredLaptops={setFilteredLaptops}
-            initialSortApplied={!isLoading}
+            onCompare={handleCompare}
           />
         </div>
         <div className="flex-1 top-20">
@@ -78,8 +90,8 @@ const Laptop = () => {
               )}
             </>
           ) : (
-            <div className="h-full flex justify-center items-center">
-              tidak ada yang tersedia
+            <div className="text-center mt-8">
+              <p>No laptops found matching your criteria.</p>
             </div>
           )}
         </div>

@@ -7,15 +7,22 @@ import { FaDatabase } from "react-icons/fa";
 import { PiMonitorBold } from "react-icons/pi";
 import { TbHeartRateMonitor } from "react-icons/tb";
 
-const Comparison = () => {
+const Comparison = ({ onBack, comparisons }) => {
+  // Assuming we're comparing the first two laptops in the comparisons array
+  const laptop1 = comparisons[0];
+  const laptop2 = comparisons[1];
+
   return (
-    <div className="min-h-screen px-4 py-3 flex flex-col items-center text-white">
+    <div className="min-h-[calc(100vh-30vh-4rem)] px-4 py-3 flex flex-col items-center text-white">
       {/* Header Section */}
-      <div className="w-full max-w-5xl mb-6">
+      <div className="w-full max-w-5xl mb-6 mt-5">
         <div className="flex items-center relative">
           <div className="absolute -left-20">
-            <button className="text-accent hover:text-yellow-300 underline">
-              Back
+            <button 
+              onClick={onBack} 
+              className="text-accent hover:text-yellow-300 underline"
+            >
+              Back To List
             </button>
           </div>
           <div className="flex-1 text-center">
@@ -29,40 +36,23 @@ const Comparison = () => {
         {/* Left Laptop */}
         <div className="w-80 p-4 text-center">
           <div className="h-56 flex items-center justify-center mb-4">
-            <span className="text-gray-400">Laptop Image</span>
+            <img 
+              src={laptop1?.image_url || '/placeholder.png'} 
+              alt={laptop1?.model_name || 'Laptop'} 
+              className="max-h-full object-contain"
+            />
           </div>
           <div className="bg-accent text-primary py-2 rounded mb-4 font-bold">
-            Rp. 39,745,873
+            Rp. {laptop1?.price?.toLocaleString() || '0'}
           </div>
           <div className="text-base space-y-3">
-            <div className="flex items-center gap-2">
-              <MdLaptopChromebook className="text-xl text-accent" />
-              <span>HP</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <GiProcessor className="text-xl text-accent" />
-              <span>AMD Ryzen 7 5800H</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <PiGraphicsCard className="text-xl text-accent" />
-              <span>NVIDIA GeForce RTX 3050 Ti</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <RiRam2Line className="text-xl text-accent" />
-              <span>16GB DDR4</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <FaDatabase className="text-xl text-accent" />
-              <span>512GB SSD</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <PiMonitorBold className="text-xl text-accent" />
-              <span>16.1 inch</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <TbHeartRateMonitor className="text-xl text-accent" />
-              <span>144Hz Refresh Rate</span>
-            </div>
+            <ComparisonItem icon={MdLaptopChromebook} value={laptop1?.brand} align="left" />
+            <ComparisonItem icon={GiProcessor} value={laptop1?.processor} align="left" />
+            <ComparisonItem icon={PiGraphicsCard} value={laptop1?.gpu} align="left" />
+            <ComparisonItem icon={RiRam2Line} value={laptop1?.ram} align="left" />
+            <ComparisonItem icon={FaDatabase} value={laptop1?.memory} align="left" />
+            <ComparisonItem icon={PiMonitorBold} value={laptop1?.display} align="left" />
+            <ComparisonItem icon={TbHeartRateMonitor} value={laptop1?.refresh_rate} align="left" />
           </div>
         </div>
 
@@ -74,43 +64,40 @@ const Comparison = () => {
         {/* Right Laptop */}
         <div className="w-80 p-4 text-center">
           <div className="h-56 flex items-center justify-center mb-4">
-            <span className="text-white">Laptop Image</span>
+            <img 
+              src={laptop2?.image_url || '/placeholder.png'} 
+              alt={laptop2?.model_name || 'Laptop'} 
+              className="max-h-full object-contain"
+            />
           </div>
-          <div className="bg-accent text-primary text-center py-2 rounded mb-4 font-bold">
-            Rp. 39,745,873
+          <div className="bg-accent text-primary py-2 rounded mb-4 font-bold">
+            Rp. {laptop2?.price?.toLocaleString() || '0'}
           </div>
           <div className="text-base space-y-3">
-            <div className="flex items-center justify-end gap-2">
-              <span>HP</span>
-              <MdLaptopChromebook className="text-xl text-accent" />
-            </div>
-            <div className="flex items-center justify-end gap-2">
-              <span>AMD Ryzen 7 5800H</span>
-              <GiProcessor className="text-xl text-accent" />
-            </div>
-            <div className="flex items-center justify-end gap-2">
-              <span>NVIDIA GeForce RTX 3050 Ti</span>
-              <PiGraphicsCard className="text-xl text-accent" />
-            </div>
-            <div className="flex items-center justify-end gap-2">
-              <span>16GB DDR4</span>
-              <RiRam2Line className="text-xl text-accent" />
-            </div>
-            <div className="flex items-center justify-end gap-2">
-              <span>512GB SSD</span>
-              <FaDatabase className="text-xl text-accent" />
-            </div>
-            <div className="flex items-center justify-end gap-2">
-              <span>16.1 inch</span>
-              <PiMonitorBold className="text-xl text-accent" />
-            </div>
-            <div className="flex items-center justify-end gap-2">
-              <span>144Hz Refresh Rate</span>
-              <TbHeartRateMonitor className="text-xl text-accent" />
-            </div>
+            <ComparisonItem icon={MdLaptopChromebook} value={laptop2?.brand} align="right" />
+            <ComparisonItem icon={GiProcessor} value={laptop2?.processor} align="right" />
+            <ComparisonItem icon={PiGraphicsCard} value={laptop2?.gpu} align="right" />
+            <ComparisonItem icon={RiRam2Line} value={laptop2?.ram} align="right" />
+            <ComparisonItem icon={FaDatabase} value={laptop2?.memory} align="right" />
+            <ComparisonItem icon={PiMonitorBold} value={laptop2?.display} align="right" />
+            <ComparisonItem icon={TbHeartRateMonitor} value={laptop2?.refresh_rate} align="right" />
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+const ComparisonItem = ({ icon: Icon, value, align }) => {
+  const containerClass = `flex items-center gap-2 ${
+    align === "right" ? "justify-end" : "justify-start"
+  }`;
+  
+  return (
+    <div className={containerClass}>
+      {align === "left" && <Icon className="text-xl text-accent" />}
+      <span>{value || "N/A"}</span>
+      {align === "right" && <Icon className="text-xl text-accent" />}
     </div>
   );
 };
