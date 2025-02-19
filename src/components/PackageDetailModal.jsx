@@ -5,21 +5,102 @@ import { MdGraphicEq } from "react-icons/md";
 import { IoIosResize, IoMdLink } from "react-icons/io";
 import { MdOutlineDateRange } from "react-icons/md";
 import { RiToolsLine } from "react-icons/ri";
-import {
-  CiDesktopMouse1,
-  CiDollar,
-  CiKeyboard
-} from "react-icons/ci";
+import { motion, AnimatePresence } from "framer-motion";
+import { CiDesktopMouse1, CiDollar, CiKeyboard } from "react-icons/ci";
 import { AiOutlineUsb } from "react-icons/ai";
 import { BsUsb } from "react-icons/bs";
 
-const ComponentCard = ({ title, specs, link, image }) => {
+// Animation variants for the backdrop
+const backdropVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+  exit: { opacity: 0 }
+};
+
+// Animation variants for the modal
+const modalVariants = {
+  hidden: { 
+    opacity: 0,
+    scale: 0.95,
+    y: 20
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.2,
+      ease: "easeOut",
+      when: "beforeChildren"
+    }
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.95,
+    y: 20,
+    transition: {
+      duration: 0.2,
+      ease: "easeInOut"
+    }
+  }
+};
+
+// Animation variants for component cards
+const cardVariants = {
+  hidden: { 
+    opacity: 0,
+    x: -20
+  },
+  visible: (i) => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: i * 0.05,
+      duration: 0.2
+    }
+  }),
+  exit: (i) => ({
+    opacity: 0,
+    x: -20,
+    transition: {
+      delay: i * 0.05,
+      duration: 0.2
+    }
+  })
+};
+
+const ComponentCard = ({ title, specs, link, image, index }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!title) return null;
 
+  const specVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: { 
+      opacity: 1, 
+      height: "auto",
+      transition: {
+        duration: 0.2,
+        ease: "easeOut"
+      }
+    },
+    exit: { 
+      opacity: 0,
+      height: 0,
+      transition: {
+        duration: 0.2,
+        ease: "easeInOut"
+      }
+    }
+  };
+
   return (
-    <div className="bg-accent bg-opacity-10 rounded-lg overflow-hidden">
+    <motion.div
+      variants={cardVariants}
+      custom={index}
+      layout
+      className="bg-accent bg-opacity-10 rounded-lg overflow-hidden"
+    >
       <div
         className="p-4 flex items-center justify-between cursor-pointer transition-colors duration-200 hover:bg-accent hover:bg-opacity-20"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -30,321 +111,245 @@ const ComponentCard = ({ title, specs, link, image }) => {
             <h3 className="text-white text-sm">{title}</h3>
           </div>
 
-          <div className="p-2 hover:bg-yellow-400 bg-accent rounded-lg">
-            <a href={link} target="_blank" rel="noopener noreferrer">
-              <IoMdLink className="text-primary" size={20} />
-            </a>
-          </div>
+          {link && (
+            <motion.div 
+              className="p-2 hover:bg-yellow-400 bg-accent rounded-lg"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <a href={link} target="_blank" rel="noopener noreferrer">
+                <IoMdLink className="text-primary" size={20} />
+              </a>
+            </motion.div>
+          )}
         </div>
       </div>
 
-      <div
-        className={`transition-all duration-300 ease-in-out ${
-          isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-        } overflow-hidden`}
-      >
-        <div className="p-4">
-          <div className="grid grid-cols-2 gap-3 text-sm">
-            {specs.map((spec, index) => (
-              <div key={index} className="flex items-center gap-2">
-                {spec.icon && <spec.icon className="text-gray-400" />}
-                {spec.label && <p className="text-accent">{spec.label}</p>}
-                <p className="text-white text-xs">{spec.value}</p>
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            variants={specVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="overflow-hidden"
+          >
+            <div className="p-4">
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                {specs.map((spec, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ 
+                      opacity: 1, 
+                      x: 0,
+                      transition: {
+                        delay: index * 0.05,
+                        duration: 0.2
+                      }
+                    }}
+                    exit={{ 
+                      opacity: 0, 
+                      x: -20,
+                      transition: {
+                        delay: index * 0.05,
+                        duration: 0.2
+                      }
+                    }}
+                    className="flex items-center gap-2"
+                  >
+                    {spec.icon && <spec.icon className="text-gray-400" />}
+                    {spec.label && <p className="text-accent">{spec.label}</p>}
+                    <p className="text-white text-xs">{spec.value}</p>
+                  </motion.div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
 const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
-  if (!isOpen) return null;
+  const [isClosing, setIsClosing] = useState(false);
 
-  const { monitor, keyboard, mouse, mouse_pad, others } =
-    packageData.components;
+  if (!isOpen || !packageData) return null;
 
-  const { game_pad, bracket, streamdeck, armrest, desk_lamp, monitor_lamp } =
-    packageData.components.others;
+  const { monitor, keyboard, mouse, mouse_pad, others } = packageData.components;
 
-  // Handle click outside
+  const handleClose = () => {
+    setIsClosing(true);
+    // Add a small delay before actually closing the modal
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 200); // Match this with your exit animation duration
+  };
+
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
-      onClose();
+      handleClose();
     }
   };
 
-  // Handle escape key
-    React.useEffect(() => {
+  React.useEffect(() => {
     const handleEscapeKey = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
+      if (e.key === "Escape") {
+        handleClose();
       }
     };
 
-    // Add event listener when modal opens
     if (isOpen) {
-      document.addEventListener('keydown', handleEscapeKey);
+      document.addEventListener("keydown", handleEscapeKey);
     }
 
-    // Cleanup event listener when modal closes or component unmounts
     return () => {
-      document.removeEventListener('keydown', handleEscapeKey);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
+
+  const getComponentSpecs = (component, type) => {
+    if (!component) return [];
+
+    const specMap = {
+      monitor: [
+        { icon: MdOutlineDateRange, value: component.year },
+        { icon: FiMonitor, value: component.specification?.resolution },
+        { icon: MdGraphicEq, value: component.specification?.refresh_rate },
+        { icon: RiToolsLine, value: component.specification?.feature }
+      ],
+      mouse: [
+        { icon: CiDesktopMouse1, value: component.specifications?.dpi },
+        { icon: BsUsb, value: component.specifications?.type },
+        { icon: AiOutlineUsb, value: component.specifications?.connectivity },
+        { icon: RiToolsLine, value: component.specifications?.features || "-" }
+      ],
+      keyboard: [
+        { icon: BsUsb, value: component.specifications?.type },
+        { icon: AiOutlineUsb, value: component.specifications?.connectivity },
+        { icon: CiKeyboard, value: component.specifications?.layout },
+        { icon: RiToolsLine, value: component.specifications?.features }
+      ],
+      mousePad: [
+        { icon: IoIosResize, value: component.size }
+      ],
+      other: [
+        { icon: CiDollar, value: component.price },
+        { icon: RiToolsLine, value: component.feature || component.size || component.specification?.feature }
+      ]
+    };
+
+    return specMap[type] || [];
+  };
 
   return (
-    <div 
-      className={`fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${
-        isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-      }`}
-      onClick={handleBackdropClick}  // Add click handler to backdrop
-    >
-      <div className={`bg-primary rounded-lg w-full max-w-3xl relative border border-accent transform transition-all duration-300 ${
-        isOpen ? "scale-100 opacity-100" : "scale-90 opacity-0"
-      }`}>
-        <button
-          onClick={onClose}
-          className="absolute -right-5 -top-4 rounded-sm text-white bg-red-600 hover:bg-red-500"
+    <AnimatePresence mode="wait">
+      {isOpen && (
+        <motion.div
+          key="modal-backdrop"
+          variants={backdropVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4"
+          onClick={handleBackdropClick}
         >
-          <FiX size={30} />
-        </button>
+          <motion.div
+            key="modal-content"
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="bg-primary rounded-lg w-full max-w-3xl relative border border-accent"
+          >
+            <motion.button
+              onClick={handleClose}
+              className="absolute -right-5 -top-4 rounded-sm text-white bg-red-600 hover:bg-red-500"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FiX size={30} />
+            </motion.button>
 
-        {/* Rest of the modal content remains the same */}
-        <div className="md:flex max-h-[80vh]">
-          {/* Left Section */}
-          <div className="mx-auto w-72 p-6 flex-shrink-0">
-            <div className="w-full aspect-video bg-accent rounded-lg mb-4" />
-            <h2 className="text-3xl font-bold text-center text-white mb-2">
-              {packageData.tier}
-            </h2>
-            <p className="text-white font-light text-center text-sm mb-5">
-              {packageData.description}
-            </p>
-            <div className="mt-20">
-              <p className="text-black font-semibold text-center rounded-md mb-2 p-2 bg-accent text-sm">
-                {packageData.priceRange}
-              </p>
-              <p className="text-gray-400 text-center text-xs mb-1">
-                *Price May Fluctuate
-              </p>
-            </div>
-          </div>
+            <div className="md:flex max-h-[80vh]">
+              {/* Left Section */}
+              <motion.div
+                variants={cardVariants}
+                custom={0}
+                className="mx-auto w-72 p-6 flex-shrink-0"
+              >
+                <motion.div 
+                  variants={cardVariants}
+                  custom={1}
+                  className="w-full aspect-video bg-accent rounded-lg mb-4"
+                />
+                <motion.h2
+                  variants={cardVariants}
+                  custom={2}
+                  className="text-3xl font-bold text-center text-white mb-2"
+                >
+                  {packageData.tier}
+                </motion.h2>
+                <motion.p
+                  variants={cardVariants}
+                  custom={3}
+                  className="text-white font-light text-center text-sm mb-5"
+                >
+                  {packageData.description}
+                </motion.p>
+                <motion.div variants={cardVariants} custom={4} className="mt-20">
+                  <motion.p
+                    whileHover={{ scale: 1.05 }}
+                    className="text-black font-semibold text-center rounded-md mb-2 p-2 bg-accent text-sm"
+                  >
+                    {packageData.priceRange}
+                  </motion.p>
+                  <p className="text-gray-400 text-center text-xs mb-1">
+                    *Price May Fluctuate
+                  </p>
+                </motion.div>
+              </motion.div>
 
-          {/* Right Section */}
-          <div className="flex-1 p-6 overflow-y-auto max-h-[60vh] custom-scrollbar space-y-6">
-            <div className="space-y-4 px-2">
-              <ComponentCard
-                title={monitor?.monitor_1?.model_name}
-                image={monitor?.monitor_1?.image_url}
-                specs={
-                  monitor
-                    ? [
-                        {
-                          label: <MdOutlineDateRange size={20} />,
-                          value: monitor?.monitor_1?.year,
-                        },
-                        {
-                          label: <FiMonitor size={20} />,
-                          value: monitor?.monitor_1?.specification?.resolution,
-                        },
-                        {
-                          label: <MdGraphicEq size={20} />,
-                          value:
-                            monitor?.monitor_1?.specification?.refresh_rate,
-                        },
-                        {
-                          label: <RiToolsLine size={20} />,
-                          value: monitor?.monitor_1?.specification?.feature,
-                        },
-                      ]
-                    : []
-                }
-                link={monitor?.monitor_1?.link_tokopedia}
-              />
-              <ComponentCard
-                title={monitor?.monitor_2?.model_name}
-                image={monitor?.monitor_2?.image_url}
-                specs={
-                  monitor
-                    ? [
-                        {
-                          label: <MdOutlineDateRange size={20} />,
-                          value: monitor?.monitor_2?.year,
-                        },
-                        {
-                          label: <FiMonitor size={20} />,
-                          value: monitor?.monitor_2?.specification?.resolution,
-                        },
-                        {
-                          label: <MdGraphicEq size={20} />,
-                          value:
-                            monitor?.monitor_2?.specification?.refresh_rate,
-                        },
-                        {
-                          label: <RiToolsLine size={20} />,
-                          value: monitor?.monitor_2?.specification?.feature,
-                        },
-                      ]
-                    : null
-                }
-                link={monitor?.monitor_2?.link_tokopedia}
-              />
-              <ComponentCard
-                title={mouse?.model_name}
-                image={mouse?.image_url}
-                specs={
-                  mouse
-                    ? [
-                        {
-                          label: <CiDesktopMouse1 size={20} />,
-                          value: mouse?.specifications?.dpi,
-                        },
-                        {
-                          label: <BsUsb size={20} />,
-                          value: mouse?.specifications?.type,
-                        },
-                        {
-                          label: <AiOutlineUsb size={20} />,
-                          value: mouse?.specifications?.connectivity,
-                        },
-                        {
-                          label: <RiToolsLine size={20} />,
-                          value: mouse?.specifications?.features || "-",
-                        },
-                      ]
-                    : []
-                }
-              />
-              <ComponentCard
-                title={keyboard?.model_name}
-                image={keyboard?.image_url}
-                specs={
-                  keyboard
-                    ? [
-                        {
-                          label: <BsUsb size={20} />,
-                          value: keyboard?.specifications?.type,
-                        },
-                        {
-                          label: <AiOutlineUsb size={20} />,
-                          value: keyboard?.specifications?.connectivity,
-                        },
-                        {
-                          label: <CiKeyboard size={20} />,
-                          value: keyboard?.specifications?.layout,
-                        },
-                        {
-                          label: <RiToolsLine size={20} />,
-                          value: keyboard?.specifications?.features,
-                        },
-                      ]
-                    : []
-                }
-              />
-              <ComponentCard
-                title={mouse_pad?.model_name}
-                image={mouse_pad?.image_url}
-                specs={
-                  mouse_pad
-                    ? [
-                        {
-                          label: <IoIosResize size={20} />,
-                          value: mouse_pad?.size,
-                        },
-                      ]
-                    : []
-                }
-              />
-              {others.is_others ? (
-                <>
-                  <ComponentCard
-                    title={others?.bracket?.model_name}
-                    image={others?.bracket?.image_url}
-                    specs={
-                      bracket
-                        ? [
-                            { label: <CiDollar size={20} /> , value: bracket?.price },
-                            { label: <IoIosResize size={20} />, value: bracket?.size },
-                          ]
-                        : []
-                    }
-                  />
-                  <ComponentCard
-                    title={others?.game_pad?.model_name}
-                    image={others?.game_pad?.image_url}
-                    specs={
-                      bracket
-                        ? [
-                            {
-                              label: <CiDollar size={20} />,
-                              value: game_pad?.price,
-                            },
-                            {
-                              label: <AiOutlineUsb size={20} />,
-                              value: game_pad?.specification?.connection,
-                            },
-                          ]
-                        : []
-                    }
-                  />
-                  <ComponentCard
-                    title={others?.streamdeck?.model_name}
-                    image={others?.streamdeck?.image_url}
-                    specs={
-                      bracket
-                        ? [
-                            { label: <CiDollar size={20} />, value: streamdeck?.price },
-                            { label: <AiOutlineUsb size={20} />, value: streamdeck?.specification?.connetivity },
-                            { label: <RiToolsLine size={20} />, value: streamdeck?.specification?.feature },
-                          ]
-                        : []
-                    }
-                  />
-                  <ComponentCard
-                    title={others?.armrest?.model_name}
-                    image={others?.armrest?.image_url}
-                    specs={
-                      armrest
-                        ? [
-                            { label: <CiDollar size={20} />, value: armrest?.price },
-                            { label: <IoIosResize size={20} />, value: armrest?.size },
-                          ]
-                        : []
-                    }
-                  />
-                  <ComponentCard
-                    title={others?.desk_lamp?.model_name}
-                    image={others?.desk_lamp?.image_url}
-                    specs={
-                      desk_lamp
-                        ? [
-                            { label: <CiDollar size={20} />, value: bracket?.price },
-                            { label: <IoIosResize size={20} />, value: bracket?.size },
-                          ]
-                        : []
-                    }
-                  />
-                  <ComponentCard
-                    title={others?.monitor_lamp?.model_name}
-                    image={others?.monitor_lamp?.image_url}
-                    specs={
-                      monitor_lamp
-                        ? [
-                            { label: <CiDollar size={20} />, value: monitor_lamp?.price },
-                            { label: <RiToolsLine size={20} />, value: monitor_lamp?.feature },
-                          ]
-                        : []
-                    }
-                  />
-                </>
-              ) : null}
+              {/* Right Section */}
+              <motion.div
+                variants={cardVariants}
+                custom={5}
+                className="flex-1 p-6 overflow-y-auto max-h-[60vh] custom-scrollbar"
+              >
+                <motion.div className="space-y-4 px-2">
+                  {[
+                    { data: monitor?.monitor_1, type: "monitor" },
+                    { data: monitor?.monitor_2, type: "monitor" },
+                    { data: mouse, type: "mouse" },
+                    { data: keyboard, type: "keyboard" },
+                    { data: mouse_pad, type: "mousePad" },
+                    ...(others?.is_others
+                      ? Object.entries(others)
+                          .filter(([key]) => key !== "is_others")
+                          .map(([key, data]) => ({ data, type: "other" }))
+                      : [])
+                  ].map((item, index) => (
+                    item.data && (
+                      <ComponentCard
+                        key={`${item.type}-${index}`}
+                        index={index}
+                        title={item.data.model_name}
+                        image={item.data.image_url}
+                        specs={getComponentSpecs(item.data, item.type)}
+                        link={item.data.link_tokopedia}
+                      />
+                    )
+                  ))}
+                </motion.div>
+              </motion.div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
