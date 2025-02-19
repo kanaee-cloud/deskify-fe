@@ -8,18 +8,18 @@ import useLocalPackage from "../hooks/useLocalPackage";
 import { IoBookmarks, IoBookmarksOutline } from "react-icons/io5";
 import { ImSpinner2 } from "react-icons/im";
 import { CiCircleInfo } from "react-icons/ci";
+import { motion, AnimatePresence } from "framer-motion";
 
 const PackageCard = ({ id, tier, description, priceRange, components }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false)
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const { addPackages, packages } = useLocalPackage();
-  const [isLoading, setIsLoading] = useState(false)
-
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const savedPackages = JSON.parse(localStorage.getItem("packages")) || [];
     setIsBookmarked(savedPackages.some((item) => String(item.id) === String(id)));
-  }, [packages, id])
+  }, [packages, id]);
 
   const handleBookmarkClick = () => {
     setIsLoading(true); 
@@ -29,9 +29,23 @@ const PackageCard = ({ id, tier, description, priceRange, components }) => {
     }, 1000); 
   };
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
-      <div className="bg-primary border-solid border-accent border rounded-lg p-4 lg:p-6 relative h-full flex flex-col">
+      <motion.div 
+        className="bg-primary border-solid border-accent border rounded-lg p-4 lg:p-6 relative h-full flex flex-col"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        whileHover={{ y: -5, transition: { duration: 0.2 } }}
+      >
         {/* Image placeholder */}
         <div className="aspect-video bg-accent rounded-lg mb-4"></div>
 
@@ -89,46 +103,59 @@ const PackageCard = ({ id, tier, description, priceRange, components }) => {
               </div>
             </div>
           </div>
-          <button
+          <motion.button
             onClick={handleBookmarkClick}
             className="bg-accent text-primary text-xs rounded-full font-medium px-2 py-2 whitespace-nowrap"
+            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.1 }}
           >
-              {isLoading ? (
+            {isLoading ? (
               <ImSpinner2 className="animate-spin text-xl" />
             ) : isBookmarked ? (
               <IoBookmarks size={20} />
             ) : (
               <IoBookmarksOutline size={20} />
             )}
-          </button>
+          </motion.button>
         </div>
 
         {/* Bottom Section */}
         <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6">
           <div className="flex justify-between items-center space-x-2">
-            <span className="bg-accent w-fit text-black text-xs rounded-md font-medium px-2 py-2 whitespace-nowrap">
+            <motion.span 
+              className="bg-accent w-fit text-black text-xs rounded-md font-medium px-2 py-2 whitespace-nowrap"
+              whileHover={{ scale: 1.05 }}
+            >
               {priceRange}
-            </span>
-            <button
-              onClick={() => setIsModalOpen(true)}
+            </motion.span>
+            <motion.button
+              onClick={handleOpenModal}
+              initial={{ scale: 1, rotate: 0 }}
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ ease: "easeOut", duration: 0.2 }}
               className="text-accent text-sm font-normal hover:underline text-wrap"
             >
               <CiCircleInfo size={30}/>
-            </button>
+            </motion.button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      <PackageDetailModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        packageData={{
-          tier,
-          description,
-          priceRange,
-          components,
-        }}
-      />
+      <AnimatePresence>
+        {isModalOpen && (
+          <PackageDetailModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            packageData={{
+              tier,
+              description,
+              priceRange,
+              components,
+            }}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };
