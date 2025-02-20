@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { MdMonitor } from "react-icons/md";
 import { IoBookmarksOutline } from "react-icons/io5";
-// import { Menu, X } from "lucide-react";
-import Bookmark from "./Bookmark";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-
+import Bookmark from "./Bookmark";
 
 const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -54,11 +52,14 @@ const Navbar = () => {
   return (
     <>
       <header
-        className={`${
-          isSticky
-            ? "fixed top-0 left-0 right-0 bg-primary shadow-lg"
-            : "relative bg-transparent"
-        } border rounded-lg m-4 border-accent flex items-center justify-between py-3 px-5 z-50 transition-all duration-300`}
+        className={`
+          transition-all duration-300
+          ${isSticky 
+            ? "fixed top-0 left-0 right-0 bg-primary shadow-lg m-4 rounded-lg border border-accent" 
+            : "fixed top-0 left-0 right-0 bg-primary border-b border-accent"
+          } 
+          flex items-center justify-between py-3 px-5 z-50
+        `}
       >
         <div className="flex items-center">
           <MdMonitor size={24} className="text-accent" />
@@ -67,18 +68,15 @@ const Navbar = () => {
 
         {/* Mobile Menu Section */}
         <div className="md:hidden flex items-center gap-3">
-          {/* Current Route Name */}
           <span className="text-white text-sm">{getCurrentRouteName()}</span>
-          
-          {/* Menu Button */}
           <button 
             onClick={toggleMenu}
             className="z-50"
           >
             {isMenuOpen ? (
-              <FaChevronUp  className="h-6 w-6 text-accent" size={10}/>
+              <FaChevronUp className="h-6 w-6 text-accent" size={10}/>
             ) : (
-              <FaChevronDown  className="h-6 w-6 text-accent" size={10}/>
+              <FaChevronDown className="h-6 w-6 text-accent" size={10}/>
             )}
           </button>
         </div>
@@ -96,7 +94,7 @@ const Navbar = () => {
           </NavLink>
         </nav>
 
-        {/* Mobile Navigation Dropdown with Animation */}
+        {/* Mobile Navigation Dropdown */}
         <div 
           className={`md:hidden absolute top-full left-0 right-0 mt-2 bg-primary border border-accent rounded-lg shadow-lg transform transition-all duration-300 ease-in-out origin-top ${
             isMenuOpen 
