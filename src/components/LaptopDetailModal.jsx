@@ -22,27 +22,62 @@ const LaptopDetailModal = ({
   const { id, name, image, ram, memory, display, price, processor, gpu } =
     laptopData;
 
+  const overlayVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.15 } },
+    exit: { opacity: 0, transition: { duration: 0.15, delay: 0.1 } }
+  };
+
+  const modalVariants = {
+    hidden: { scale: 0.95, opacity: 0, y: 10 },
+    visible: { 
+      scale: 1, 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        type: "spring",
+        damping: 30,
+        stiffness: 400,
+        mass: 0.8
+      }
+    },
+    exit: { 
+      scale: 0.98,
+      opacity: 0,
+      y: 10,
+      transition: { 
+        duration: 0.15
+      }
+    }
+  };
+
+  const contentVariants = {
+    hidden: { opacity: 0, x: 0 },
+    visible: { opacity: 1, x: 0 }
+  };
+
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          variants={overlayVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
           className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             className="bg-primary rounded-lg w-full max-w-3xl relative border border-accent"
           >
             <motion.button
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.1 }}
               onClick={onClose}
-              onKeyDown={(e) => e.key === 'Escape' && onClose()}
               className="absolute rounded-sm -right-5 -top-4 text-white bg-red-600 hover:bg-red-500"
             >
               <FiX size={30} />
@@ -51,21 +86,23 @@ const LaptopDetailModal = ({
             <div className="p-6">
               <div className="flex gap-x-4 items-center mb-4">
                 <motion.div
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.1 }}
+                  variants={contentVariants}
+                  initial="hidden"
+                  animate="visible"
+                  transition={{ duration: 0.2, delay: 0.1 }}
                   className="aspect-video w-[48vh]"
                 >
                   <img
                     src={image}
                     alt={name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover rounded-lg"
                   />
                 </motion.div>
                 <motion.div
-                  initial={{ x: 20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: 0.2 }}
+                  variants={contentVariants}
+                  initial="hidden"
+                  animate="visible"
+                  transition={{ duration: 0.2, delay: 0.15 }}
                   className="flex flex-col items-start"
                 >
                   <div className="mb-4 w-full">
@@ -74,8 +111,9 @@ const LaptopDetailModal = ({
                   </div>
                   <div className="flex items-center gap-x-4">
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.1 }}
                       className="text-primary bg-accent py-2 px-4 rounded-lg"
                       onClick={() =>
                         addComparison({ id, name, image, ram, memory, display })
@@ -84,8 +122,9 @@ const LaptopDetailModal = ({
                       Add to Comparison
                     </motion.button>
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.1 }}
                       onClick={handleBookmarkClick}
                       className={`border border-accent text-accent p-2 rounded-lg ${
                         isBookmarked ? "bg-accent text-primary" : ""
@@ -103,36 +142,26 @@ const LaptopDetailModal = ({
                 </motion.div>
               </div>
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="flex-1 overflow-y-auto max-h-[40vh] custom-scrollbar space-y-5"
+                variants={contentVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ duration: 0.2, delay: 0.2 }}
+                className="flex-1 overflow-y-auto max-h-[40vh] custom-scrollbar space-y-3"
               >
-                <ComponentCard 
-                  title={processor} 
-                  icon={<MdMemory size={30} />} 
-                  delay={0.4} 
-                />
-                <ComponentCard 
-                  title={gpu} 
-                  icon={<BsGpuCard size={30} />} 
-                  delay={0.5}
-                />
-                <ComponentCard 
-                  title={ram} 
-                  icon={<CgSmartphoneRam size={30} />} 
-                  delay={0.6}
-                />
-                <ComponentCard 
-                  title={memory} 
-                  icon={<FaDatabase size={30} />} 
-                  delay={0.7}
-                />
-                <ComponentCard 
-                  title={display} 
-                  icon={<FiMonitor size={30} />} 
-                  delay={0.8}
-                />
+                {[
+                  { title: processor, icon: <MdMemory size={30} />, delay: 0.25 },
+                  { title: gpu, icon: <BsGpuCard size={30} />, delay: 0.3 },
+                  { title: ram, icon: <CgSmartphoneRam size={30} />, delay: 0.35 },
+                  { title: memory, icon: <FaDatabase size={30} />, delay: 0.4 },
+                  { title: display, icon: <FiMonitor size={30} />, delay: 0.45 }
+                ].map((item, index) => (
+                  <ComponentCard 
+                    key={index}
+                    title={item.title} 
+                    icon={item.icon} 
+                    delay={item.delay}
+                  />
+                ))}
               </motion.div>
             </div>
           </motion.div>
@@ -145,11 +174,14 @@ const LaptopDetailModal = ({
 const ComponentCard = ({ title, icon, delay }) => {
   return (
     <motion.div
-      initial={{ x: -20, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ delay }}
-      whileHover={{ scale: 1.02 }}
-      className="bg-accent bg-opacity-10 rounded-lg overflow-hidden"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ 
+        duration: 0.2,
+        delay,
+        ease: [0.25, 0.1, 0.25, 1]
+      }}
+      className="bg-accent mr-4 bg-opacity-10 rounded-lg overflow-hidden"
     >
       <div className="p-4 flex items-center justify-between cursor-pointer transition-colors duration-200 hover:bg-accent hover:bg-opacity-20">
         <div className="flex w-full justify-between items-center gap-2">
