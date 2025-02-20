@@ -31,7 +31,7 @@ const Comparison = ({ onBack, comparisons }) => {
       </div>
 
       {/* Main Content */}
-      <div className="flex justify-between items-stretch max-w-4xl w-full">
+      <div className="md:flex justify-between items-stretch max-w-4xl w-full">
         {/* Left Laptop */}
         <div className="w-fit p-4 text-center">
           <h2 className="text-2xl font-medium mb-6 text-white text-nowrap">
@@ -59,7 +59,7 @@ const Comparison = ({ onBack, comparisons }) => {
         </div>
 
         {/* Center VS Section */}
-        <div className="w-12 flex items-center justify-center self-center">
+        <div className="w-12 rotate-90 md:rotate-0 mx-auto flex items-center justify-center self-center">
           <img src="/assets/versus.png" alt="VS" className="w-10" />
         </div>
 

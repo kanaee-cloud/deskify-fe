@@ -4,8 +4,8 @@ import { MdMonitor } from "react-icons/md";
 import { IoBookmarksOutline } from "react-icons/io5";
 // import { Menu, X } from "lucide-react";
 import Bookmark from "./Bookmark";
-import { FaTimes } from "react-icons/fa";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+
 
 const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -76,9 +76,9 @@ const Navbar = () => {
             className="z-50"
           >
             {isMenuOpen ? (
-              <FaTimes className="h-6 w-6 text-accent" />
+              <FaChevronUp  className="h-6 w-6 text-accent" size={10}/>
             ) : (
-              <RxHamburgerMenu className="h-6 w-6 text-accent" />
+              <FaChevronDown  className="h-6 w-6 text-accent" size={10}/>
             )}
           </button>
         </div>

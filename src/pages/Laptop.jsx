@@ -6,6 +6,11 @@ import LaptopSkeletonGrid from "../components/LaptopCardSkeleton";
 import SidebarFilter from "../components/SidebarFilter";
 import Comparison from "../components/Comparison";
 import useComparisons from "../hooks/useComparisons";
+// import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+// import { RxHamburgerMenu } from "react-icons/rx";
+import { FaTimes } from "react-icons/fa";
+import { LuSettings2 } from "react-icons/lu";
 
 const Laptop = () => {
   const { laptops } = useLaptops();
@@ -13,6 +18,7 @@ const Laptop = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(12);
   const [showComparison, setShowComparison] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { comparisons } = useComparisons();
 
   const handleShowMore = () => {
@@ -21,6 +27,7 @@ const Laptop = () => {
 
   const handleCompare = () => {
     setShowComparison(true);
+    setIsModalOpen(false);
   };
 
   const handleBackToList = () => {
@@ -49,14 +56,71 @@ const Laptop = () => {
           <SearchLaptops setFilteredLaptops={setFilteredLaptops} />
         </div>
       </section>
+
+      {/* Filter Button for Mobile */}
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="md:hidden fixed top-24 left-4 z-30 bg-primary p-2 rounded-lg border border-accent"
+      >
+        <LuSettings2 className="h-6 w-6 text-accent" />
+      </button>
+
       <section className="md:flex items-start p-8 gap-6">
-        <div className="sticky top-20 h-fit w-[20%] max-h-screen pr-4 overflow-auto custom-scrollbar">
+        {/* Desktop Sidebar */}
+        <div className="hidden md:block sticky top-20 h-fit w-[20%] max-h-screen pr-4 overflow-auto custom-scrollbar">
           <SidebarFilter
             laptops={laptops}
             setFilteredLaptops={setFilteredLaptops}
             onCompare={handleCompare}
           />
         </div>
+
+        {/* Mobile Modal */}
+        <AnimatePresence>
+          {isModalOpen && (
+            <>
+              {/* Modal Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsModalOpen(false)}
+                className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              />
+
+              {/* Modal Content */}
+              <motion.div
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                className="fixed bottom-0 left-0 right-0 bg-primary z-50 md:hidden rounded-t-xl border-t border-accent"
+              >
+                {/* Modal Header */}
+                <div className="flex items-center justify-between p-4 border-b border-accent">
+                  <h2 className="text-lg font-semibold">Filters</h2>
+                  <button
+                    onClick={() => setIsModalOpen(false)}
+                    className="p-1 hover:bg-accent/10 rounded-lg"
+                  >
+                    <FaTimes className="h-6 w-6 text-accent" />
+                  </button>
+                </div>
+
+                {/* Modal Body */}
+                <div className="p-4 max-h-[70vh] overflow-auto custom-scrollbar">
+                  <SidebarFilter
+                    laptops={laptops}
+                    setFilteredLaptops={setFilteredLaptops}
+                    onCompare={handleCompare}
+                  />
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Main Content */}
         <div className="flex-1 top-20">
           {isLoading ? (
             <LaptopSkeletonGrid />

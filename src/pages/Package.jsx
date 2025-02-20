@@ -22,8 +22,8 @@ const Package = () => {
     <>
       <section className="bg-header bg-no-repeat bg-center h-[30vh] flex items-center justify-center">
         <div className="text-center ">
-          <h1 className="md:text-5xl font-semibold mb-5">Setup Pre-Build</h1>
-          <p className="text-2xl opacity-70">
+          <h1 className="md:text-5xl text-3xl font-semibold mb-5">Setup Pre-Build</h1>
+          <p className="md:text-2xl opacity-70">
             Choose a Pre-Built Design Tailored to Your Needs!
           </p>
         </div>
