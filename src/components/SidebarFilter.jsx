@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useMemo } from "react";
-// import { PiMinusCircle } from "react-icons/pi";
-// import { PiMinusCircleDuotone } from "react-icons/pi";
-// import { MdCompareArrows } from "react-icons/md";
+
 import { TbArrowsSort } from "react-icons/tb";
 import useComparisons from "../hooks/useComparisons";
 import { CiCircleMinus } from "react-icons/ci";
 
 const SidebarFilter = ({ laptops, setFilteredLaptops, onCompare }) => {
-  const [sortConfig, setSortConfig] = useState({ field: "price", direction: "asc" });
+  const [sortConfig, setSortConfig] = useState({ field: "name", direction: "asc" });
   const [selectedStorage, setSelectedStorage] = useState([]);
   const [selectedRam, setSelectedRam] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const { comparisons, removeComparison } = useComparisons();
-  // const [hoveredIndex, setHoveredIndex] = useState(null);
+
 
   const extractRamSize = (ramString) => {
     const match = ramString.match(/(\d+)GB/i);
