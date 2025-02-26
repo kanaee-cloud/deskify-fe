@@ -3,15 +3,23 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaFileImage } from "react-icons/fa";
+import { CiCircleInfo } from "react-icons/ci";
+import { motion } from "framer-motion";
 import useLocalPackage from "../hooks/useLocalPackage";
 import { truncateText } from "../utilities/TruncateText";
 import useLocalLaptop from "../hooks/useLocalLaptop";
 import { FormatMoney } from "../utilities/FormatMoney";
+import LaptopDetailModal from "./LaptopDetailModal";
+import PackageDetailModal from "./PackageDetailModal";
 
 const Bookmark = ({ isOpen, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
   const { packages, removePackages } = useLocalPackage();
   const { laptop, removeLaptop } = useLocalLaptop();
+  const [isLaptopModalOpen, setIsLaptopModalOpen] = useState(false);
+  const [isPackageModalOpen, setIsPackageModalOpen] = useState(false);
+  const [selectedLaptop, setSelectedLaptop] = useState(null);
+  const [selectedPackage, setSelectedPackage] = useState(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -26,8 +34,22 @@ const Bookmark = ({ isOpen, onClose }) => {
     }, 300);
   };
 
-  
-  const isEmpty = (!packages || packages.length === 0) && (!laptop || laptop.length === 0);
+  const handleOpenLaptopModal = (laptop) => {
+    setSelectedLaptop(laptop);
+    setIsLaptopModalOpen(true);
+  };
+
+  const handleOpenPackageModal = (packageItem) => {
+    setSelectedPackage(packageItem);
+    setIsPackageModalOpen(true);
+  };
+
+  const handleClosePackageModal = () => {
+    setIsPackageModalOpen(false);
+  };
+
+  const isEmpty =
+    (!packages || packages.length === 0) && (!laptop || laptop.length === 0);
 
   return (
     <>
@@ -52,20 +74,19 @@ const Bookmark = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        
         {isEmpty ? (
           <div className="mt-12 text-center text-gray-400">
             <p className="text-lg">No bookmarked item yet</p>
           </div>
         ) : (
           <>
-           
             {packages && packages.length > 0 && (
               <ul className="mt-12 space-y-3">
                 <h1 className="text-xl font-semibold">Packages</h1>
                 {packages.map((item, index) => (
                   <li
                     key={item.id}
+                    onClick={() => handleOpenPackageModal(item)}
                     style={{
                       opacity: 0,
                       animation: isVisible
@@ -84,18 +105,22 @@ const Bookmark = ({ isOpen, onClose }) => {
                       </div>
                     </div>
 
-                    <button
-                      onClick={() => removePackages(item.id)}
-                      className="text-red-500 mr-3"
-                    >
-                      <IoMdCloseCircle size={20} />
-                    </button>
+                    <div className="flex items-center">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removePackages(item.id);
+                        }}
+                        className="text-red-500 mr-3"
+                      >
+                        <IoMdCloseCircle size={20} />
+                      </button>
+                    </div>
                   </li>
                 ))}
               </ul>
             )}
 
-           
             {laptop && laptop.length > 0 && (
               <ul className="mt-12 space-y-3">
                 <h1 className="text-xl font-semibold">Laptops</h1>
@@ -108,7 +133,8 @@ const Bookmark = ({ isOpen, onClose }) => {
                         ? `fadeSlideIn 0.2s ease-out forwards ${index * 0.2}s`
                         : "none",
                     }}
-                    className="flex items-center justify-between border-b border-accent pb-2"
+                    className="flex items-center justify-between border-b border-accent pb-2 cursor-pointer"
+                    onClick={() => handleOpenLaptopModal(item)}
                   >
                     <div className="flex items-center gap-3 ml-3">
                       <FaFileImage size={20} className="text-accent" />
@@ -121,7 +147,10 @@ const Bookmark = ({ isOpen, onClose }) => {
                     </div>
 
                     <button
-                      onClick={() => removeLaptop(item.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeLaptop(item.id);
+                      }}
                       className="text-red-500 mr-3"
                     >
                       <IoMdCloseCircle size={20} />
@@ -133,6 +162,19 @@ const Bookmark = ({ isOpen, onClose }) => {
           </>
         )}
       </div>
+
+      {/* Always render the modals, but control their visibility with isOpen prop */}
+      <LaptopDetailModal
+        isOpen={isLaptopModalOpen}
+        onClose={() => setIsLaptopModalOpen(false)}
+        laptopData={selectedLaptop}
+      />
+
+      <PackageDetailModal
+        isOpen={isPackageModalOpen}
+        onClose={handleClosePackageModal}
+        packageData={selectedPackage}
+      />
 
       <style jsx>{`
         @keyframes fadeSlideIn {

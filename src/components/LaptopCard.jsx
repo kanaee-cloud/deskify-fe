@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 // import { truncateText } from "../utilities/TruncateText";
 import { CgSmartphoneRam } from "react-icons/cg";
 import { extractText } from "../utilities/ExtractText";
+import { FormatMoney } from "../utilities/FormatMoney";
 import { FaDatabase } from "react-icons/fa";
 import { FiMonitor } from "react-icons/fi";
 import { TwoChar } from "../utilities/TwoChar";
@@ -46,7 +47,7 @@ const LaptopCard = ({
   const handleBookmarkClick = () => {
     setIsLoading(true); 
     setTimeout(() => {
-      addLaptop({ id, name, price });
+      addLaptop({ id, name, image, ram, memory, display, price, processor, gpu});
       setIsLoading(false); 
     }, 1000); 
   };
@@ -55,7 +56,7 @@ const LaptopCard = ({
 
   return (
     <>
-      <div className="max-h-[30vh] border border-gray-300 border-opacity-60 rounded-md ">
+      <div className="max-h-[30vh] border border-gray-700 border-opacity-60 rounded-md ">
         <div
           className="flex items-center gap-x-5 w-full px-4 py-4 cursor-pointer"
           onClick={() => setIsModalOpen(true)}
@@ -67,10 +68,10 @@ const LaptopCard = ({
               className="w-auto h-[15vh] object-contain rounded-lg"
             />
           </div>
-          <div className="flex flex-col gap-y-2">
+          <div className="flex flex-col gap-y-3">
             <h1 className="w-full text-sm font-light ">{name}</h1>
             <div className="flex w-full gap-x-4 opacity-70 items-center">
-              <p className="flex items-center  text-xs gap-x-1">
+              <p className="flex items-center text-xs gap-x-1">
                 <CgSmartphoneRam size={15} className="text-accent" />
                 {extractText(ram)}
               </p>
@@ -85,6 +86,7 @@ const LaptopCard = ({
                 {extractText(memory)}
               </p>
             </div>
+            <h3 className="text-sm font-light">{FormatMoney(price)}</h3>
           </div>
         </div>
         <button

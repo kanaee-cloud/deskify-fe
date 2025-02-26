@@ -24,7 +24,7 @@ const PackageCard = ({ id, tier, description, priceRange, components }) => {
   const handleBookmarkClick = () => {
     setIsLoading(true); 
     setTimeout(() => {
-      addPackages({ id, tier, description });
+      addPackages({ id, tier, description, components, priceRange });
       setIsLoading(false); 
     }, 1000); 
   };
@@ -69,7 +69,7 @@ const PackageCard = ({ id, tier, description, priceRange, components }) => {
                   <p className="text-xs font-normal text-gray-400">
                     No Monitor Available
                   </p>
-                )}
+                )}a
               </div>
             </div>
             {components.mouse ? (
