@@ -9,6 +9,27 @@ const useLocalLaptop = () => {
     setLaptop(savedLaptop);
   }, []);
 
+  const toastConfig = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: false,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    transition: Bounce,
+    style: { 
+      fontFamily: "Lexend, sans-serif", 
+      fontSize: "16px",
+      background: '#E3B951',
+      color: '#212529 '
+    },
+    onClick: () => {
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    },
+  };
 
   const addLaptop = (device) => {
     const savedLaptop = JSON.parse(localStorage.getItem("laptop")) || [];
@@ -17,69 +38,21 @@ const useLocalLaptop = () => {
     );
 
     if (isAlreadyAdded) {
-      toast(`${device.name} already in bookmark`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-        style: { fontFamily: "Lexend, sans-serif", fontSize: "16px" },
-        onClick: () => {
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        },
-      });
+      toast(`${device.name} already in bookmark`, toastConfig);
       return;
     }
 
     const updatedLaptop = [...savedLaptop, device];
     localStorage.setItem("laptop", JSON.stringify(updatedLaptop));
     setLaptop(updatedLaptop);
-    toast("Laptop Added to Bookmark", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-      style: { fontFamily: "Lexend, sans-serif", fontSize: "16px" },
-      onClick: () => {
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      },
-    });
+    toast("Laptop Added to Bookmark", toastConfig);
   };
 
   const removeLaptop = (id) => {
     const updatedLaptop = laptop.filter((device) => device.id !== id);
     localStorage.setItem("laptop", JSON.stringify(updatedLaptop));
     setLaptop(updatedLaptop);
-    toast("Laptop Deleted from Bookmark", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-      style: { fontFamily: "Lexend, sans-serif", fontSize: "16px" },
-      onClick: () => {
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      },
-    });
+    toast("Laptop Deleted from Bookmark", toastConfig);
   };
 
   return { laptop, addLaptop, removeLaptop };

@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiMonitor, FiX } from "react-icons/fi";
 import { MdGraphicEq } from "react-icons/md";
 import { IoIosResize, IoMdLink } from "react-icons/io";
@@ -70,8 +69,10 @@ const cardVariants = {
 };
 
 const ComponentCard = ({ title, specs, link, image, index }) => {
+  // Always declare all hooks at the top level
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // Handle the case when title is not available
   if (!title) return null;
 
   const specVariants = {
@@ -116,6 +117,7 @@ const ComponentCard = ({ title, specs, link, image, index }) => {
               className="p-2 hover:bg-yellow-400 bg-accent rounded-lg"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={(e) => e.stopPropagation()}
             >
               <a href={link} target="_blank" rel="noopener noreferrer">
                 <IoMdLink className="text-primary" size={20} />
@@ -173,28 +175,11 @@ const ComponentCard = ({ title, specs, link, image, index }) => {
 };
 
 const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
+  // Always declare all hooks at the top level
   const [isClosing, setIsClosing] = useState(false);
 
-  if (!isOpen || !packageData) return null;
-
-  const { monitor, keyboard, mouse, mouse_pad, others } = packageData.components;
-
-  const handleClose = () => {
-    setIsClosing(true);
-    // Add a small delay before actually closing the modal
-    setTimeout(() => {
-      setIsClosing(false);
-      onClose();
-    }, 200); // Match this with your exit animation duration
-  };
-
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      handleClose();
-    }
-  };
-
-  React.useEffect(() => {
+  // Use useEffect for handling escape key - must be placed before any conditional returns
+  useEffect(() => {
     const handleEscapeKey = (e) => {
       if (e.key === "Escape") {
         handleClose();
@@ -209,6 +194,20 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
       document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [isOpen]);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 200); 
+  };
+
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      handleClose();
+    }
+  };
 
   const getComponentSpecs = (component, type) => {
     if (!component) return [];
@@ -243,6 +242,13 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
 
     return specMap[type] || [];
   };
+
+  // Return empty fragment if not open or no data - but ensure all hooks are declared above this
+  if (!isOpen || !packageData) {
+    return null;
+  }
+
+  const { monitor, keyboard, mouse, mouse_pad, others } = packageData.components || {};
 
   return (
     <AnimatePresence mode="wait">
@@ -331,8 +337,9 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                           .filter(([key]) => key !== "is_others")
                           .map(([key, data]) => ({ data, type: "other" }))
                       : [])
-                  ].map((item, index) => (
-                    item.data && (
+                  ]
+                    .filter(item => item.data) // Filter null/undefined items
+                    .map((item, index) => (
                       <ComponentCard
                         key={`${item.type}-${index}`}
                         index={index}
@@ -341,8 +348,8 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                         specs={getComponentSpecs(item.data, item.type)}
                         link={item.data.link_tokopedia}
                       />
-                    )
-                  ))}
+                    ))
+                  }
                 </motion.div>
               </motion.div>
             </div>

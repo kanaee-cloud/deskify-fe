@@ -55,7 +55,7 @@ const Navbar = () => {
         className={`
           transition-all duration-300
           ${isSticky 
-            ? "fixed top-0 left-0 right-0 bg-primary shadow-lg m-4 rounded-lg border border-accent" 
+            ? "fixed top-0 left-0 right-0 bg-primary shadow-lg m-2 rounded-lg border border-accent" 
             : "fixed top-0 left-0 right-0 bg-primary border-b border-accent"
           } 
           flex items-center justify-between py-3 px-5 z-50
