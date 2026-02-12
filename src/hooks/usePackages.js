@@ -21,7 +21,8 @@ const usePackages = (initialPage = 1) => {
         setPackages(data.packages || []);
         setTotalPages(data.totalPages || 4);
       } catch (err) {
-        setError("failed to fetch packages");
+        console.error("Error fetching packages:", err);
+        setError(err.response?.data?.message || err.message || "failed to fetch packages");
       } finally {
         setIsLoading(false);
       }

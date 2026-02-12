@@ -16,10 +16,11 @@ const useLaptops = () => {
         const response = await api.get('/laptops')
         const data = response.data
 
- 
+
         setLaptops(data.laptop || [])
-      } catch (err){
-        setError("failed to fetch laptops")
+      } catch (err) {
+        console.error("Error fetching laptops:", err);
+        setError(err.response?.data?.message || err.message || "failed to fetch laptops");
       } finally {
         setIsLoading(false)
       }
@@ -32,7 +33,7 @@ const useLaptops = () => {
     laptops,
     isLoading,
     error
-}
+  }
 }
 
 export default useLaptops

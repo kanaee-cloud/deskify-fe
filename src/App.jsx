@@ -14,8 +14,8 @@ function App() {
           <Navbar />
         </header>
         <ToastContainer />
-        
-        <main className="flex-1 mt-[64px]"> 
+
+        <main className="flex-1 pt-20">
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/laptops" element={<Laptop />}></Route>

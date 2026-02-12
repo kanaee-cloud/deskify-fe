@@ -3,7 +3,7 @@ import { FaRegKeyboard } from "react-icons/fa";
 import { truncateText } from "../utilities/TruncateText";
 import { FiMonitor } from "react-icons/fi";
 import { FiMousePointer } from "react-icons/fi";
-import PackageDetailModal from "./PackageDetailModal";  
+import PackageDetailModal from "./PackageDetailModal";
 import useLocalPackage from "../hooks/useLocalPackage";
 import { IoBookmarks, IoBookmarksOutline } from "react-icons/io5";
 import { ImSpinner2 } from "react-icons/im";
@@ -22,11 +22,11 @@ const PackageCard = ({ id, tier, description, priceRange, components }) => {
   }, [packages, id]);
 
   const handleBookmarkClick = () => {
-    setIsLoading(true); 
+    setIsLoading(true);
     setTimeout(() => {
       addPackages({ id, tier, description, components, priceRange });
-      setIsLoading(false); 
-    }, 1000); 
+      setIsLoading(false);
+    }, 1000);
   };
 
   const handleOpenModal = () => {
@@ -39,8 +39,8 @@ const PackageCard = ({ id, tier, description, priceRange, components }) => {
 
   return (
     <>
-      <motion.div 
-        className="bg-primary border-solid border-accent border rounded-lg p-4 lg:p-6 relative h-full flex flex-col"
+      <motion.div
+        className="bg-primary/80 backdrop-blur-md border border-white/10 rounded-xl p-4 lg:p-6 relative h-full flex flex-col shadow-lg hover:shadow-[0_0_20px_rgba(227,185,81,0.2)] hover:border-accent/40 transition-all duration-300"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
@@ -122,7 +122,7 @@ const PackageCard = ({ id, tier, description, priceRange, components }) => {
         {/* Bottom Section */}
         <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6">
           <div className="flex justify-between items-center space-x-2">
-            <motion.span 
+            <motion.span
               className="bg-accent w-fit text-black text-xs rounded-md font-medium px-2 py-2 whitespace-nowrap"
               whileHover={{ scale: 1.05 }}
             >
@@ -136,7 +136,7 @@ const PackageCard = ({ id, tier, description, priceRange, components }) => {
               transition={{ ease: "easeOut", duration: 0.2 }}
               className="text-accent text-sm font-normal hover:underline text-wrap"
             >
-              <CiCircleInfo size={30}/>
+              <CiCircleInfo size={30} />
             </motion.button>
           </div>
         </div>

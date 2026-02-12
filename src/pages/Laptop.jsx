@@ -50,9 +50,15 @@ const Laptop = () => {
 
   return (
     <>
-      <section className="bg-header bg-no-repeat bg-center h-[30vh] flex items-center justify-center">
-        <div className="text-center flex flex-col items-center">
-          <h1 className="md:text-5xl font-semibold mb-5">Laptop Comparison</h1>
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[100px]" />
+      </div>
+
+      <section className="relative bg-header bg-no-repeat bg-center h-[30vh] flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/90" />
+        <div className="text-center flex flex-col items-center z-10">
+          <h1 className="md:text-5xl font-semibold mb-5 text-white drop-shadow-lg">Laptop Comparison</h1>
           <SearchLaptops setFilteredLaptops={setFilteredLaptops} />
         </div>
       </section>
@@ -147,10 +153,10 @@ const Laptop = () => {
               {visibleCount < filteredLaptops.length && (
                 <div className="flex justify-center mt-6">
                   <button
-                    className="px-4 py-2 bg-accent w-full rounded-lg text-primary"
+                    className="px-6 py-3 bg-transparent border border-accent text-accent hover:bg-accent hover:text-primary transition-all duration-300 rounded-lg font-medium shadow-[0_0_10px_rgba(227,185,81,0.2)] hover:shadow-[0_0_20px_rgba(227,185,81,0.6)] w-full md:w-auto"
                     onClick={handleShowMore}
                   >
-                    Load More
+                    Load More Laptops
                   </button>
                 </div>
               )}

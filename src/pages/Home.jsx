@@ -1,19 +1,15 @@
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import { fadeIn } from "../utilities/Variants";
 import { MdMonitor } from "react-icons/md";
 
 const Home = () => {
+  const section2Ref = useRef(null);
+
   const handleSmoothScroll = (event) => {
     event.preventDefault();
-    const targetSection = document.querySelector("#section2");
-    if (targetSection) {
-      window.scrollTo({
-        top: targetSection.offsetTop,
-        behavior: "smooth",
-      });
-    }
+    section2Ref.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -28,9 +24,9 @@ const Home = () => {
             className="flex flex-col gap-y-10 text-center"
           >
             <div className="flex justify-center items-center">
-                      <MdMonitor size={36} className="text-accent" />
-                      <h1 className="md:text-4xl ml-1 font-medium">Deskify</h1>
-                    </div>
+              <MdMonitor size={36} className="text-accent" />
+              <h1 className="md:text-4xl ml-1 font-medium">Deskify</h1>
+            </div>
             <h1 className="lg:text-6xl text-3xl font-medium text-center">
               Build Your Ultimate Laptop <br /> Setup with Ease.
             </h1>
@@ -63,6 +59,7 @@ const Home = () => {
           whileInView={"show"}
           initial="hidden"
           viewport={{ once: false, amount: 0.7 }}
+          ref={section2Ref}
           id="section2"
           className="h-screen flex justify-center items-center md:gap-x-20 gap-x-10"
         >

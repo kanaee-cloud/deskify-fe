@@ -60,8 +60,8 @@ const Bookmark = ({ isOpen, onClose }) => {
       />
 
       <div
-        className={`fixed top-0 right-0 z-50 w-80 h-full border-l-2 border-accent 
-          bg-primary shadow-lg text-white p-7 transition-transform duration-300 ease-in-out
+        className={`fixed top-0 right-0 z-50 w-96 h-full border-l border-white/10 
+          bg-primary/95 backdrop-blur-xl shadow-2xl text-white p-7 transition-all duration-300 ease-in-out
           ${isVisible ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="flex items-center gap-6">
@@ -93,10 +93,12 @@ const Bookmark = ({ isOpen, onClose }) => {
                         ? `fadeSlideIn 0.2s ease-out forwards ${index * 0.2}s`
                         : "none",
                     }}
-                    className="flex items-center justify-between border-b border-accent pb-2"
+                    className="flex items-center justify-between border border-white/10 bg-white/5 rounded-lg p-3 mb-2 hover:bg-white/10 transition-colors"
                   >
-                    <div className="flex items-center gap-3 ml-3">
-                      <FaFileImage size={20} className="text-accent" />
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-accent/10 rounded-full">
+                        <FaFileImage size={16} className="text-accent" />
+                      </div>
                       <div className="flex flex-col">
                         <p className="font-medium">{item.tier}</p>
                         <p className="text-xs text-gray-400">
@@ -133,11 +135,13 @@ const Bookmark = ({ isOpen, onClose }) => {
                         ? `fadeSlideIn 0.2s ease-out forwards ${index * 0.2}s`
                         : "none",
                     }}
-                    className="flex items-center justify-between border-b border-accent pb-2 cursor-pointer"
+                    className="flex items-center justify-between border border-white/10 bg-white/5 rounded-lg p-3 mb-2 cursor-pointer hover:bg-white/10 transition-colors group"
                     onClick={() => handleOpenLaptopModal(item)}
                   >
-                    <div className="flex items-center gap-3 ml-3">
-                      <FaFileImage size={20} className="text-accent" />
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-accent/10 rounded-full">
+                        <FaFileImage size={16} className="text-accent" />
+                      </div>
                       <div className="flex flex-col">
                         <p className="font-medium">{truncateText(item.name)}</p>
                         <p className="text-xs text-gray-400">

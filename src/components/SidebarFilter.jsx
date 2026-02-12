@@ -105,7 +105,7 @@ const SidebarFilter = ({ laptops, setFilteredLaptops, onCompare }) => {
   };
 
   return (
-    <div className="md:w-full">
+    <div className="md:w-full bg-primary/90 backdrop-blur-md border border-white/10 p-4 rounded-xl shadow-lg">
       <CollapsibleSection
         title="Sort Options"
         isExpanded={expandedSections.sort}
@@ -123,11 +123,10 @@ const SidebarFilter = ({ laptops, setFilteredLaptops, onCompare }) => {
                 : "Highest"
               : "Unsorted"}
             <TbArrowsSort
-              className={`transition-transform ${
-                sortConfig.field === "price" && sortConfig.direction === "desc"
+              className={`transition-transform ${sortConfig.field === "price" && sortConfig.direction === "desc"
                   ? "rotate-180"
                   : ""
-              }`}
+                }`}
             />
           </button>
 
@@ -142,11 +141,10 @@ const SidebarFilter = ({ laptops, setFilteredLaptops, onCompare }) => {
                 : "Z to A"
               : "Unsorted"}
             <TbArrowsSort
-              className={`transition-transform ${
-                sortConfig.field === "name" && sortConfig.direction === "desc"
+              className={`transition-transform ${sortConfig.field === "name" && sortConfig.direction === "desc"
                   ? "rotate-180"
                   : ""
-              }`}
+                }`}
             />
           </button>
         </div>

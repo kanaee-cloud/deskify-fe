@@ -29,9 +29,9 @@ const LaptopCard = ({
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-      const savedLaptop = JSON.parse(localStorage.getItem("laptop")) || [];
-      setIsBookmarked(savedLaptop.some((item) => String(item.id) === String(id)));
-    }, [laptop, id])
+    const savedLaptop = JSON.parse(localStorage.getItem("laptop")) || [];
+    setIsBookmarked(savedLaptop.some((item) => String(item.id) === String(id)));
+  }, [laptop, id])
 
 
   // const handleAddComparison = () => {
@@ -45,18 +45,18 @@ const LaptopCard = ({
   // };
 
   const handleBookmarkClick = () => {
-    setIsLoading(true); 
+    setIsLoading(true);
     setTimeout(() => {
-      addLaptop({ id, name, image, ram, memory, display, price, processor, gpu});
-      setIsLoading(false); 
-    }, 1000); 
+      addLaptop({ id, name, image, ram, memory, display, price, processor, gpu });
+      setIsLoading(false);
+    }, 1000);
   };
 
   const { addComparison } = useComparisons();
 
   return (
     <>
-      <div className="max-h-[30vh] border border-gray-700 border-opacity-60 rounded-md ">
+      <div className="group relative flex flex-col justify-between bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(227,185,81,0.2)] hover:border-accent/40">
         <div
           className="flex items-center gap-x-5 w-full px-4 py-4 cursor-pointer"
           onClick={() => setIsModalOpen(true)}
@@ -65,7 +65,7 @@ const LaptopCard = ({
             <img
               src={image}
               alt={name}
-              className="w-auto h-[15vh] object-contain rounded-lg"
+              className="w-auto h-[15vh] object-contain rounded-lg transition-transform duration-300 group-hover:scale-105"
             />
           </div>
           <div className="flex flex-col gap-y-3">
@@ -91,9 +91,9 @@ const LaptopCard = ({
         </div>
         <button
           onClick={() =>
-            addComparison({ id, name, image, brand, processor, gpu, price, ram, memory, display, refresh_rate})
+            addComparison({ id, name, image, brand, processor, gpu, price, ram, memory, display, refresh_rate })
           }
-          className="bg-accent hover:bg-yellow-500 transition-all w-full py-1 text-sm rounded-b-md text-primary"
+          className="bg-accent hover:bg-yellow-500 transition-all w-full py-2 text-sm font-medium text-primary mt-auto"
         >
           Add Comparison
         </button>
@@ -115,7 +115,7 @@ const LaptopCard = ({
           refresh_rate
         }}
         addComparison={addComparison}
-        handleBookmarkClick = {handleBookmarkClick}
+        handleBookmarkClick={handleBookmarkClick}
         isLoading={isLoading}
         isBookmarked={isBookmarked}
       />
