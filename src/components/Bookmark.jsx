@@ -3,8 +3,6 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaFileImage } from "react-icons/fa";
-import { CiCircleInfo } from "react-icons/ci";
-import { motion } from "framer-motion";
 import useLocalPackage from "../hooks/useLocalPackage";
 import { truncateText } from "../utilities/TruncateText";
 import useLocalLaptop from "../hooks/useLocalLaptop";
@@ -60,7 +58,7 @@ const Bookmark = ({ isOpen, onClose }) => {
       />
 
       <div
-        className={`fixed top-0 right-0 z-50 w-96 h-full border-l border-white/10 
+        className={`fixed top-0 right-0 z-50 w-96 h-full border-l border-white/10
           bg-primary/95 backdrop-blur-xl shadow-2xl text-white p-7 transition-all duration-300 ease-in-out
           ${isVisible ? "translate-x-0" : "translate-x-full"}`}
       >

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FiMonitor, FiX } from "react-icons/fi";
-import { MdGraphicEq } from "react-icons/md";
+import { MdGraphicEq, MdOutlineDateRange } from "react-icons/md";
 import { IoIosResize, IoMdLink } from "react-icons/io";
-import { MdOutlineDateRange } from "react-icons/md";
 import { RiToolsLine } from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
 import { CiDesktopMouse1, CiDollar, CiKeyboard } from "react-icons/ci";
@@ -18,7 +17,7 @@ const backdropVariants = {
 
 // Animation variants for the modal
 const modalVariants = {
-  hidden: { 
+  hidden: {
     opacity: 0,
     scale: 0.95,
     y: 20
@@ -46,7 +45,7 @@ const modalVariants = {
 
 // Animation variants for component cards
 const cardVariants = {
-  hidden: { 
+  hidden: {
     opacity: 0,
     x: -20
   },
@@ -69,23 +68,21 @@ const cardVariants = {
 };
 
 const ComponentCard = ({ title, specs, link, image, index }) => {
-  // Always declare all hooks at the top level
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Handle the case when title is not available
   if (!title) return null;
 
   const specVariants = {
     hidden: { opacity: 0, height: 0 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       height: "auto",
       transition: {
         duration: 0.2,
         ease: "easeOut"
       }
     },
-    exit: { 
+    exit: {
       opacity: 0,
       height: 0,
       transition: {
@@ -113,7 +110,7 @@ const ComponentCard = ({ title, specs, link, image, index }) => {
           </div>
 
           {link && (
-            <motion.div 
+            <motion.div
               className="p-2 hover:bg-yellow-400 bg-accent rounded-lg"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -142,16 +139,16 @@ const ComponentCard = ({ title, specs, link, image, index }) => {
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
-                    animate={{ 
-                      opacity: 1, 
+                    animate={{
+                      opacity: 1,
                       x: 0,
                       transition: {
                         delay: index * 0.05,
                         duration: 0.2
                       }
                     }}
-                    exit={{ 
-                      opacity: 0, 
+                    exit={{
+                      opacity: 0,
                       x: -20,
                       transition: {
                         delay: index * 0.05,
@@ -175,10 +172,12 @@ const ComponentCard = ({ title, specs, link, image, index }) => {
 };
 
 const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
-  // Always declare all hooks at the top level
-  const [isClosing, setIsClosing] = useState(false);
+  // Menggunakan useCallback untuk menghindari re-creation fungsi setiap render
+  // yang bisa memicu useEffect berulang kali atau infinite loop
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
 
-  // Use useEffect for handling escape key - must be placed before any conditional returns
   useEffect(() => {
     const handleEscapeKey = (e) => {
       if (e.key === "Escape") {
@@ -193,15 +192,7 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
     return () => {
       document.removeEventListener("keydown", handleEscapeKey);
     };
-  }, [isOpen]);
-
-  const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setIsClosing(false);
-      onClose();
-    }, 200); 
-  };
+  }, [isOpen, handleClose]); // Dependency array sekarang lengkap
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -243,7 +234,7 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
     return specMap[type] || [];
   };
 
-  // Return empty fragment if not open or no data - but ensure all hooks are declared above this
+  // Pastikan hooks dipanggil sebelum return kondisional
   if (!isOpen || !packageData) {
     return null;
   }
@@ -287,7 +278,7 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                 custom={0}
                 className="mx-auto w-72 p-6 flex-shrink-0"
               >
-                <motion.div 
+                <motion.div
                   variants={cardVariants}
                   custom={1}
                   className="w-full aspect-video bg-accent rounded-lg mb-4"
@@ -338,7 +329,7 @@ const PackageDetailModal = ({ isOpen, onClose, packageData }) => {
                           .map(([key, data]) => ({ data, type: "other" }))
                       : [])
                   ]
-                    .filter(item => item.data) // Filter null/undefined items
+                    .filter(item => item.data)
                     .map((item, index) => (
                       <ComponentCard
                         key={`${item.type}-${index}`}
